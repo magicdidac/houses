@@ -1,4 +1,4 @@
-# Project Name
+# Futura Casa
 
 This project is made with React framework and MUI for the UI. Also uses ApolloClient to connect with a Graphql API in AWS.
 
