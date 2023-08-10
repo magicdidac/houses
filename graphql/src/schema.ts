@@ -19,10 +19,17 @@ type House {
     id: Int!
     link: String!
     price: Int!
+    properties: HouseProperties!
     anaRate: Int
     anaNotes: String
     didacRate: Int
     didacNotes: String
     globalRate: Int
+}
+
+type HouseProperties {
+    title: String!
+    price: String!
+    banner: String!
 }
 `

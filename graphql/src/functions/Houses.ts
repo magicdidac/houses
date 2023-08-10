@@ -1,14 +1,20 @@
 import { callDB } from "../database"
-import { stringNullable } from "../utils"
+import { parseHouse, stringNullable } from "../utils"
 
 const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM Houses'
 
 export const getHouses = async () => {
-  return await callDB(`${commonSelect} ORDER BY id ASC`)
+  const data = await callDB(`${commonSelect} ORDER BY id ASC`)
+  const parsedData = await data.map(async (house) => await parseHouse(house))
+
+  return parsedData
 }
 
 export const getHouseById = async (id: number) => {
-  return (await callDB(`${commonSelect} WHERE id = ${id}`))[0]
+  const data = await callDB(`${commonSelect} WHERE id = ${id}`)
+  const parsedData = await parseHouse(data[0])
+
+  return parsedData
 }
 
 export const addHouse = async (link: string, price: number, anaRate?: number, didacRate?: number, anaNotes?: string, didacNotes?: string) => {
