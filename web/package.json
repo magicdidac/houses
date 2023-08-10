@@ -1,6 +1,6 @@
 {
-  "name": "proyect-name",
-  "homepage": "",
+  "name": "futura-casa",
+  "homepage": "https://house.magicdidac.com",
   "version": "0.0.1",
   "private": true,
   "dependencies": {

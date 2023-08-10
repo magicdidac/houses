@@ -13,7 +13,7 @@ export const Header = () => {
         <AppBar position='fixed'>
             <StyledToolbar>
                 <Stack direction='row' gap='.5rem' alignItems='end'>
-                    <Typography variant='h6' style={{ cursor: 'pointer' }} onClick={() => navigate('/')} >[projectName]</Typography>
+                    <Typography variant='h6' style={{ cursor: 'pointer' }} onClick={() => navigate('/')} >Futura Casa</Typography>
                     <Typography variant='body2'>v {process.env.REACT_APP_VERSION}</Typography>
                 </Stack>
             </StyledToolbar>

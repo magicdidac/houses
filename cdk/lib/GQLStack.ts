@@ -26,7 +26,7 @@ export class GQLStack extends Stack {
                 allowOrigins: Cors.ALL_ORIGINS,
                 allowMethods: Cors.ALL_METHODS
             },
-            restApiName: '{projectName}-API'
+            restApiName: 'house-API'
         })
 
         api.root.addMethod('POST', new LambdaIntegration(lambda))

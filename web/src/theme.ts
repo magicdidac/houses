@@ -1,8 +1,8 @@
 import { createTheme } from "@mui/material"
 import { grey } from "@mui/material/colors"
 
-export const primaryColor = '#683ab7'
-export const secondaryColor = '#89b73a'
+export const primaryColor = '#383838'
+export const secondaryColor = '#53397f'
 
 export const webTheme = createTheme({
     palette: {

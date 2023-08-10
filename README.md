@@ -87,9 +87,9 @@ Also at the end of that file you have a very first `README.md` so please feel fr
 
 --- Delete all before when you finished the setup ---
 
-# Your Project
+# Future House
 
-{Description}
+This is a project to be able to order, value and put notes to houses that we look at different websites together with my girlfriend. So we can evaluate and decide which one suits us and our future.
 
 ## Contents
 
