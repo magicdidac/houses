@@ -1,0 +1,44 @@
+name: Web Deploy
+
+on:
+  workflow_call:
+    secrets:
+      FTP_ACCOUNT:
+        required: true
+      FTP_PASSWORD:
+        required: true
+  push:
+    branches:
+     - "main"
+    paths:
+      - "web/**"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Node setup
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 16
+
+      - name: Install modules
+        run: yarn install:web
+
+      - name: Build web
+        run: yarn build:web
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ftp.magicdidac.com
+          username: ${{ secrets.FTP_ACCOUNT }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./web/build/
+          port: 21

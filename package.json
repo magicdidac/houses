@@ -1,0 +1,12 @@
+{
+    "name": "main-package-json",
+    "private": true,
+    "scripts": {
+        "install:web": "cd web && yarn",
+        "install:api": "cd cdk && yarn && cd ../graphql && yarn",
+        "build:web": "cd web && yarn build",
+        "deploy:api": "cd cdk && yarn deploy",
+        "start": "cd web && yarn start",
+        "start:api": "cd graphql && yarn local"
+    }
+}

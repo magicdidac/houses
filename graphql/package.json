@@ -1,0 +1,22 @@
+{
+    "name": "graphql-api",
+    "version": "0.1.0",
+    "scripts": {
+        "build": "tsc",
+        "local": "nodemon -r dotenv/config local.ts"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.3",
+        "apollo-server": "3.5.0",
+        "esbuild": "0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.1.6"
+    },
+    "dependencies": {
+        "apollo-server-core": "3.5.0",
+        "apollo-server-lambda": "3.5.0",
+        "dotenv": "^16.3.1",
+        "graphql": "^16.7.1",
+        "mysql2": "^3.2.0"
+    }
+}

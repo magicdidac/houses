@@ -1,0 +1,55 @@
+name: API Deploy
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS:
+        required: true
+      AWS_SECRET:
+        required: true
+      DB:
+        required: true
+      DB_IP:
+        required: true
+      DB_PASSWORD:
+        required: true
+  push:
+    branches:
+      - "main"
+    paths:
+      - "cdk/**"
+      - "graphql/**"
+      - ".github/workflows/deploy-api.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Node setup
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 16
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+          aws-region: us-east-1
+          
+      - name: Install API modules
+        run: yarn install:api
+
+      - name: Deploy API
+        run: yarn deploy:api
+        env:
+          DB: ${{ secrets.DB }}
+          DB_IP: ${{ secrets.DB_IP }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      
+
