@@ -1737,10 +1737,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@magicdidac/notifications@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@magicdidac/notifications/-/notifications-1.0.6.tgz#d68a69acd144d8153d82743d20ec231f38088dde"
-  integrity sha512-A4UImlnRD3Caq4U0a9PD2gnlhRlo206STBAgxvrTUGO3m+8ZJPAM40gxmoamMRhIK2ZimSIuypgFHSzI7M3HaA==
+"@magicdidac/notifications@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@magicdidac/notifications/-/notifications-1.0.8.tgz#344cc626bb2b7fbfbe3c4a1dff771270d5ab792c"
+  integrity sha512-QZ281ru8EA1GYDtLcCzS0zGJjIo0fNCphad6IQHdC+6GILp9WkDDTAjeaLzc4OXQE5vUPRdBq7dyoQMO0q4Vww==
 
 "@mui/base@5.0.0-beta.10":
   version "5.0.0-beta.10"

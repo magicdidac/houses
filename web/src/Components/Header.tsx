@@ -10,11 +10,11 @@ export const Header = () => {
     const navigate = useNavigate()
 
     return (
-        <AppBar position='fixed'>
+        <AppBar position='sticky'>
             <StyledToolbar>
                 <Stack direction='row' gap='.5rem' alignItems='end'>
-                    <Typography variant='h6' style={{ cursor: 'pointer' }} onClick={() => navigate('/')} >Futura Casa</Typography>
-                    <Typography variant='body2'>v {process.env.REACT_APP_VERSION}</Typography>
+                    <Typography variant='h6' color='inherit' style={{ cursor: 'pointer' }} onClick={() => navigate('/')} >Futura Casa</Typography>
+                    <Typography variant='body2' color='inherit'>v {process.env.REACT_APP_VERSION}</Typography>
                 </Stack>
             </StyledToolbar>
         </AppBar >

@@ -8,7 +8,7 @@ export const CenterLoading = (props: ICenterLoadingProps) => {
   const { label } = props
 
   return (
-    <Stack direction='column' height='90vh' alignItems='center' justifyContent='center' gap='2rem'>
+    <Stack direction='column' height='80vh' alignItems='center' justifyContent='center' gap='2rem'>
       <CircularProgress size='5rem' />
       {label}
     </Stack>
