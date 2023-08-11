@@ -4,7 +4,7 @@ import { parseHouse, stringNullable } from "../utils"
 const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM Houses'
 
 export const getHouses = async () => {
-  const data = await callDB(`${commonSelect} ORDER BY id ASC`)
+  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
   const parsedData = await data.map(async (house) => await parseHouse(house))
 
   return parsedData
