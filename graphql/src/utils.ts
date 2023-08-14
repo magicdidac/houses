@@ -11,6 +11,7 @@ const infoBetween = (str: string, start: string, end: string) => {
 }
 
 const getHouseProperties = async (html: string): Promise<IHouseProperties> => {
+  console.log('Link:', html, 'gettingProperties')
   const allData: string = ((await axios.get(html)).data as string)
   const banner = infoBetween(allData, 'print-xl" src="', '">')
   const houseData = allData.split('id="ficha"')[1]
@@ -25,7 +26,9 @@ const getHouseProperties = async (html: string): Promise<IHouseProperties> => {
 }
 
 export const parseHouse = async (data): Promise<IHouse> => {
+  console.log('Hose:', data.id, 'Link:', data.link)
   const properties = await getHouseProperties(data.link)
+  console.log('Hose:', data.id, 'Properties getted')
 
   return {
     ...data,
