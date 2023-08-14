@@ -16,3 +16,8 @@ export interface IHouse {
   didacNotes?: string
   globalRate?: number
 }
+
+export interface IGetAllData {
+  house: IHouse,
+  habitacliaData: string
+}

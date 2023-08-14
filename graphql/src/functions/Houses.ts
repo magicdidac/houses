@@ -1,14 +1,47 @@
+import axios from "axios"
 import { callDB } from "../database"
+import { IGetAllData, IHouse } from "../interfaces"
 import { parseHouse, stringNullable } from "../utils"
 
 const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM Houses'
 
-export const getHouses = async () => {
-  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
-  const promises = data.map((house) => parseHouse(house))
-  const parsedData = await Promise.all(promises)
+const getAllData = async (house: IHouse): Promise<IGetAllData> => {
+  const allData: string = ((await axios.get(house.link)).data as string)
 
-  return parsedData
+  return {
+    habitacliaData: allData,
+    house: {
+      id: house.id,
+      link: house.link,
+      price: house.price,
+      properties: {
+        banner: '',
+        price: '',
+        title: ''
+      },
+      anaRate: house.anaRate,
+      anaNotes: house.anaNotes,
+      didacRate: house.didacRate,
+      didacNotes: house.didacNotes,
+      globalRate: house.globalRate,
+    }
+  }
+}
+
+export const getHouses = async () => {
+  console.log('Called Lambda!')
+  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
+  console.log('Getted DB info')
+  const promises = data.map((house: IHouse) => getAllData(house))
+  console.log('Start getting moreInfo')
+  const parsedData = await Promise.all(promises)
+  console.log('All info getted!')
+
+  console.log('Processing Data')
+  const finalData = parsedData.map((house) => parseHouse(house))
+  console.log('All data processed')
+
+  return finalData
 }
 
 export const getHouseById = async (id: number) => {
