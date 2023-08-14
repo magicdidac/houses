@@ -1,6 +1,6 @@
-import { App, CfnOutput, Duration, Stack, StackProps } from "aws-cdk-lib";
+import { App, Duration, Stack, StackProps } from "aws-cdk-lib";
 import { Cors, LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
-import { Architecture } from "aws-cdk-lib/aws-lambda";
+import { Architecture, HttpMethod } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import * as path from 'path';
 
@@ -9,8 +9,8 @@ export class GQLStack extends Stack {
         super(app, id, props)
         const lambda = new NodejsFunction(this, 'apollo-lambda', {
             handler: 'handler',
-            architecture: Architecture.X86_64,
-            memorySize: 128,
+            architecture: Architecture.ARM_64,
+            memorySize: 512,
             timeout: Duration.seconds(10),
             entry: path.join(__dirname, '/../../graphql/src/index.ts'),
             environment: {
@@ -29,10 +29,6 @@ export class GQLStack extends Stack {
             restApiName: 'house-API'
         })
 
-        api.root.addMethod('POST', new LambdaIntegration(lambda))
-
-        new CfnOutput(this, 'restapi-endpoint', {
-            value: api.url
-        })
+        api.root.addMethod(HttpMethod.POST, new LambdaIntegration(lambda))
     }
 }
