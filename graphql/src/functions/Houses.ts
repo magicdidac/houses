@@ -3,7 +3,7 @@ import { callDB } from "../database"
 import { IGetAllData, IHouse } from "../interfaces"
 import { parseHouse, stringNullable } from "../utils"
 
-const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM Houses'
+const commonSelect = 'SELECT * FROM Houses'
 
 const getAllData = (house: IHouse): Promise<IGetAllData> => {
   return new Promise((resolve) => {
@@ -17,14 +17,14 @@ const getAllData = (house: IHouse): Promise<IGetAllData> => {
             price: house.price,
             properties: {
               banner: '',
-              price: '',
+              price: 0,
               title: ''
             },
             anaRate: house.anaRate,
             anaNotes: house.anaNotes,
             didacRate: house.didacRate,
             didacNotes: house.didacNotes,
-            globalRate: house.globalRate,
+            globalRate: (house.anaRate && house.didacRate) ? (house.anaRate + house.didacRate) / 2 : undefined,
           }
         }
       )
@@ -33,29 +33,24 @@ const getAllData = (house: IHouse): Promise<IGetAllData> => {
 }
 
 export const getHouses = async () => {
-  console.log('Called Lambda!')
+  console.log('Get Houses')
   const data = await callDB(`${commonSelect} ORDER BY id DESC`)
-  console.log('Getted DB info')
   const promises: Promise<IGetAllData>[] = []
   for (const house of data) {
     promises.push(getAllData(house))
   }
-  console.log('Start getting moreInfo')
   const parsedData = await Promise.all(promises)
-  console.log('All info getted!')
-
-  console.log('Processing Data')
   const finalData = parsedData.map((house) => parseHouse(house))
-  console.log('All data processed')
 
   return finalData
 }
 
 export const getHouseById = async (id: number) => {
-  const data = await callDB(`${commonSelect} WHERE id = ${id}`)
-  const parsedData = await parseHouse(data[0])
+  const data = (await callDB(`${commonSelect} WHERE id = ${id}`))[0]
+  const houseWithAllData = await getAllData(data)
+  const parsedHouse = parseHouse(houseWithAllData)
 
-  return parsedData
+  return parsedHouse
 }
 
 export const addHouse = async (link: string, price: number, anaRate?: number, didacRate?: number, anaNotes?: string, didacNotes?: string) => {

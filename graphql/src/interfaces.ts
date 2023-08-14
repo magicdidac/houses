@@ -1,7 +1,7 @@
 
 export interface IHouseProperties {
   title: string
-  price: string
+  price: number
   banner: string
 }
 

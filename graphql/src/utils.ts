@@ -14,8 +14,11 @@ export const parseHouse = (data: IGetAllData): IHouse => {
   console.log('Start to process house', data.house.id)
   const banner = infoBetween(data.habitacliaData, 'print-xl" src="', '">')
   const houseData = data.habitacliaData.split('id="ficha"')[1]
+
   const title = infoBetween(houseData, '<h1>', '</h1>')
-  const price = infoBetween(houseData, 'itemprop="price">', '</span>')
+
+  let price = infoBetween(houseData, 'itemprop="price">', '</span>')
+  price = price.slice(0, -1).trim().replace('.', '')
   console.log('Finished to process house', data.house.id)
 
   return {
@@ -23,7 +26,7 @@ export const parseHouse = (data: IGetAllData): IHouse => {
     properties: {
       banner,
       title,
-      price
+      price: parseInt(price)
     }
   }
 }

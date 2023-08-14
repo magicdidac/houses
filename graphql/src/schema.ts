@@ -24,12 +24,12 @@ type House {
     anaNotes: String
     didacRate: Int
     didacNotes: String
-    globalRate: Int
+    globalRate: Float
 }
 
 type HouseProperties {
     title: String!
-    price: String!
+    price: Int!
     banner: String!
 }
 `
