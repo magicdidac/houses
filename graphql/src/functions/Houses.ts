@@ -36,7 +36,10 @@ export const getHouses = async () => {
   console.log('Called Lambda!')
   const data = await callDB(`${commonSelect} ORDER BY id DESC`)
   console.log('Getted DB info')
-  const promises = data.map((house: IHouse) => getAllData(house))
+  const promises: Promise<IGetAllData>[] = []
+  for (const house of data) {
+    promises.push(getAllData(house))
+  }
   console.log('Start getting moreInfo')
   const parsedData = await Promise.all(promises)
   console.log('All info getted!')
