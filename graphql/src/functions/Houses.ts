@@ -5,7 +5,8 @@ const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM H
 
 export const getHouses = async () => {
   const data = await callDB(`${commonSelect} ORDER BY id DESC`)
-  const parsedData = await data.map(async (house) => await parseHouse(house))
+  const promises = data.map((house) => parseHouse(house))
+  const parsedData = await Promise.all(promises)
 
   return parsedData
 }
