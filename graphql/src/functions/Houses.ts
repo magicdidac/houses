@@ -5,27 +5,31 @@ import { parseHouse, stringNullable } from "../utils"
 
 const commonSelect = 'SELECT *, ((anaRate+didacRate) DIV 2) as globalRate FROM Houses'
 
-const getAllData = async (house: IHouse): Promise<IGetAllData> => {
-  const allData: string = ((await axios.get(house.link)).data as string)
-
-  return {
-    habitacliaData: allData,
-    house: {
-      id: house.id,
-      link: house.link,
-      price: house.price,
-      properties: {
-        banner: '',
-        price: '',
-        title: ''
-      },
-      anaRate: house.anaRate,
-      anaNotes: house.anaNotes,
-      didacRate: house.didacRate,
-      didacNotes: house.didacNotes,
-      globalRate: house.globalRate,
-    }
-  }
+const getAllData = (house: IHouse): Promise<IGetAllData> => {
+  return new Promise((resolve) => {
+    axios.get(house.link).then((response) => {
+      resolve(
+        {
+          habitacliaData: response.data as string,
+          house: {
+            id: house.id,
+            link: house.link,
+            price: house.price,
+            properties: {
+              banner: '',
+              price: '',
+              title: ''
+            },
+            anaRate: house.anaRate,
+            anaNotes: house.anaNotes,
+            didacRate: house.didacRate,
+            didacNotes: house.didacNotes,
+            globalRate: house.globalRate,
+          }
+        }
+      )
+    })
+  })
 }
 
 export const getHouses = async () => {
