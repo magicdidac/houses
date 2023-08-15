@@ -4,6 +4,7 @@ import { FieldDisplay } from "./FieldDispaly"
 import { HouseRating } from "./HouseRating"
 import { IHouse } from "../interfaces"
 import { getDisclamer } from "../utils"
+import { ShareButton } from "./ShareButton"
 
 interface IHouseInfoProps {
   house: IHouse
@@ -14,11 +15,14 @@ export const HouseInfo = ({ house }: IHouseInfoProps) => {
   return (
     <Container style={{ marginTop: '1rem' }}>
       <Stack direction='column' gap='1rem'>
-        <PriceDifference
-          alignItems='start'
-          price={house.price}
-          realPrice={house.properties.price}
-        />
+        <Stack direction='row' justifyContent='space-between' alignItems='start'>
+          <PriceDifference
+            alignItems='start'
+            price={house.price}
+            realPrice={house.properties.price}
+          />
+          <ShareButton house={house} />
+        </Stack>
         <Typography variant="h5">{house.properties.title}</Typography>
         <Stack direction='row' gap='1rem'>
           <FieldDisplay value={house.features.area} units={<>m<sup>2</sup></>} />

@@ -6,7 +6,6 @@ import { PersonEdit } from "./PersonEdit"
 import { useNotifications } from "@magicdidac/notifications"
 import { useMobile } from "../Hooks/Mobile"
 
-
 export const AddHouseButton = () => {
   const addHouse = useAddHouse()
   const isMobile = useMobile()
