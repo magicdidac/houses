@@ -1,4 +1,5 @@
-import { IGetAllData, IHouse, IHouseFeatures, IHouseProperties } from "./interfaces"
+import { IHouse, IHouseFeatures, IHouseImages, IHouseProperties } from "./interfaces"
+import { IGetAllData, IImagesObject } from "./utilInterfaces"
 
 export const stringNullable = (value?: string) => {
   if (!value) return 'NULL'
@@ -58,32 +59,35 @@ const getFeatures = (str: string): IHouseFeatures => {
 
   return {
     area,
+    bedrooms,
     baths: baths === 0 ? undefined : baths,
-    bedrooms: bedrooms === 0 ? undefined : bedrooms
   }
 }
 
-const getImages = (str: string): string[] => {
-  const allImages = str
-    .split('<div class="flex-images">')[1]
-    .split('<img')
-    .slice(1)
-    .map(img => infoBetween(img, 'src="', '"'))
+const getImages = (str: string): IHouseImages => {
+  const mediaData = infoBetween(str, 'var WideMediaDTO = ', '};')
+  const imagesObject = (JSON.parse(replaceAll(infoBetween(mediaData, 'image: JSON.parse("', '"),'), '\\"', '"')) as IImagesObject[]).sort((a, b) => a.Orden - b.Orden)
+  const mapImage = infoBetween(mediaData, "mapImage: '", "',")
 
-  const quantity = parseInt(infoBetween(str, 'class="numero-fotos">', '</span').trim())
-
-  return allImages.slice(0, quantity)
+  return {
+    map: mapImage,
+    gallery: imagesObject.map(img => ({
+      main: img.URLG,
+      small: img.URL,
+      big: img.URLXL,
+    }))
+  }
 }
 
-export const parseHouse = (data: IGetAllData): IHouse => {
-  const houseData = data.habitacliaData.split('id="ficha"')[1]
+export const parseHouse = ({ habitacliaData, house }: IGetAllData): IHouse => {
+  const houseData = habitacliaData.split('id="ficha"')[1]
 
-  const properties = getProperties(houseData, data.habitacliaData)
+  const properties = getProperties(houseData, habitacliaData)
   const features = getFeatures(houseData)
   const images = getImages(houseData)
 
   return {
-    ...data.house,
+    ...house,
     properties,
     features,
     images

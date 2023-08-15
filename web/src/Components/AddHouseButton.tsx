@@ -5,6 +5,7 @@ import { useState } from "react"
 import { PersonEdit } from "./PersonEdit"
 import { useNotifications } from "@magicdidac/notifications"
 import { useMobile } from "../Hooks/Mobile"
+import { formatHabitacliaLink } from "../utils"
 
 export const AddHouseButton = () => {
   const addHouse = useAddHouse()
@@ -34,7 +35,7 @@ export const AddHouseButton = () => {
   const handleSubmit = async () => {
     setSubmitting(true)
     if (link && price) {
-      const cleanLink = link.replace('m.', '').split('.htm')[0] + '.htm'
+      const cleanLink = formatHabitacliaLink(link)
       const finalPrice = (price < 1000) ? price * 1000 : price
       const anaCorrectRate = (!anaRate || anaRate === 0) ? undefined : anaRate
       const didacCorrectRate = (!didacRate || didacRate === 0) ? undefined : didacRate

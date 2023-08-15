@@ -2,10 +2,10 @@ import { Container, Stack, Typography } from "@mui/material"
 import { PriceDifference } from "./PriceDifference"
 import { FieldDisplay } from "./FieldDispaly"
 import { HouseRating } from "./HouseRating"
-import { IHouse } from "../interfaces"
 import { getRatingMessage } from "../utils"
 import { ShareButton } from "./ShareButton"
 import { LinkButton } from "./LinkButton"
+import { IHouse } from "../Api/interfaces"
 
 interface IHouseInfoProps {
   house: IHouse

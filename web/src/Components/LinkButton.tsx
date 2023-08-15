@@ -1,6 +1,6 @@
 import { IconButton, Link, Tooltip } from "@mui/material"
-import { IHouse } from "../interfaces"
 import { OpenInNew } from "@mui/icons-material"
+import { IHouse } from "../Api/interfaces"
 
 interface ILinkButtonProps {
   house: IHouse

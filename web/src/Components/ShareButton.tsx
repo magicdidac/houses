@@ -1,8 +1,8 @@
 import { Share } from "@mui/icons-material"
 import { IconButton, Tooltip } from "@mui/material"
-import { IHouse } from "../interfaces"
 import { useNotifications } from "@magicdidac/notifications"
 import { useMobile } from "../Hooks/Mobile"
+import { IHouse } from "../Api/interfaces"
 
 interface IShareButtonProps {
   house: IHouse

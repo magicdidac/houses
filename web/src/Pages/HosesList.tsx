@@ -4,8 +4,8 @@ import { CenterLoading } from "../Components/CenterLoading"
 import { HouseItem } from "../Components/HouseItem"
 import { AddHouseButton } from "../Components/AddHouseButton"
 import { MouseEvent, useState } from "react"
-import { IHouse } from "../interfaces"
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material"
+import { IHouse } from "../Api/interfaces"
 
 export const HousesListPage = () => {
   const houses = useHouses()

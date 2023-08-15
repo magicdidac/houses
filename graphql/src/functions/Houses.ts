@@ -1,7 +1,8 @@
 import axios from "axios"
 import { callDB } from "../database"
-import { IGetAllData, IHouse } from "../interfaces"
+import { IHouse } from "../interfaces"
 import { parseHouse, stringNullable } from "../utils"
+import { IGetAllData } from "../utilInterfaces"
 
 const commonSelect = 'SELECT * FROM Houses'
 
@@ -39,7 +40,12 @@ const formatHouses = async (data: any[]): Promise<IHouse[]> => {
     try {
       return parseHouse(house)
     } catch (e) {
-      callDB(`DELETE FROM Houses WHERE id = ${house.house.id}`)
+      console.log('Disabling house:', house.house.id)
+      callDB(`
+        UPDATE Houses
+        SET disabled=TRUE
+        WHERE id=${house.house.id}
+      `)
     }
   })
 
@@ -47,7 +53,7 @@ const formatHouses = async (data: any[]): Promise<IHouse[]> => {
 }
 
 export const getHouses = async (): Promise<IHouse[]> => {
-  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
+  const data = await callDB(`${commonSelect} WHERE disabled = FALSE ORDER BY id DESC`)
   const houses = await formatHouses(data)
 
   return houses

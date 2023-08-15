@@ -1,7 +1,8 @@
 import { Container, Stack } from "@mui/material"
 import { PersonDisplay } from "./PersonDisplay"
 import { useState } from "react"
-import { IHouse, IPersonFunctions } from "../interfaces"
+import { IPersonFunctions } from "../interfaces"
+import { IHouse } from "../Api/interfaces"
 
 interface IHousePeopleProps {
   house: IHouse

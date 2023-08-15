@@ -4,10 +4,8 @@ interface IWrongMessageProps {
   message: string
 }
 
-export const WrongMessage = ({ message }: IWrongMessageProps) => {
-  return (
-    <Stack alignItems='center' marginTop='25rem'>
-      <Typography variant='h4'>{message}</Typography>
-    </Stack>
-  )
-}
+export const WrongMessage = ({ message }: IWrongMessageProps) => (
+  <Stack alignItems='center' marginTop='25rem'>
+    <Typography variant='h4'>{message}</Typography>
+  </Stack>
+)

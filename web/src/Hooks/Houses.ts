@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID } from "../Api/Houses"
-import { IHouse } from "../interfaces"
+import { IHouse } from "../Api/interfaces"
 
 enum Person {
   Ana,

@@ -1,9 +1,9 @@
 import { Box, Stack, Typography } from "@mui/material"
-import { IHouse } from "../interfaces"
 import { HouseRating } from "./HouseRating"
 import { useNavigate } from "react-router-dom"
 import { PriceDifference } from "./PriceDifference"
 import { getRatingMessage } from "../utils"
+import { IHouse } from "../Api/interfaces"
 
 interface IHouseItemProps {
   house: IHouse

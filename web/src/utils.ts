@@ -1,4 +1,4 @@
-import { IHouse } from "./interfaces"
+import { IHouse } from "./Api/interfaces"
 
 export const formatNumber = (value: number): string => {
     if (value === 0) return '00'
@@ -22,4 +22,13 @@ export const getRatingMessage = (house: IHouse): string => {
         return 'Dídac no ha puntuado esta casa'
     }
     return ''
+}
+
+export const formatHabitacliaLink = (str: string): string => {
+    let url = str
+    if (url.includes('m.')) url = url.replace('m.', '')
+    if (url.includes('?')) url = url.split('?')[0]
+    if (url.includes('.htm')) url = url.split('.htm')[0] + '.htm'
+
+    return url
 }

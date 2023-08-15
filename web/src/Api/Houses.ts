@@ -5,7 +5,14 @@ const allFields = `{
   link
   price
   globalRate
-  images
+  images {
+    gallery {
+      main
+      small
+      big
+    }
+    map
+  }
   properties {
     title
     price

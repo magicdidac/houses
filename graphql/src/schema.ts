@@ -22,7 +22,7 @@ type House {
     globalRate: Float
     properties: HouseProperties!
     features: HouseFeatures!
-    images: [String]!
+    images: HouseImages!
     ana: PersonInfo!
     didac: PersonInfo!
 }
@@ -41,8 +41,18 @@ type HouseProperties {
 
 type HouseFeatures {
     area: Int!
+    bedrooms: Int!
     baths: Int
-    bedrooms: Int
 }
 
+type HouseImages {
+    gallery: [Image]!
+    map: String!
+}
+
+type Image {
+    main: String!
+    small: String!
+    big: String!
+}
 `

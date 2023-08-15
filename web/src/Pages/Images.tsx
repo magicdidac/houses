@@ -21,11 +21,11 @@ export const ImagesPage = () => {
     if (!house.data) return
     switch (direction) {
       case Direction.Forward:
-        if (imageIndex === house.data.images.length - 1) setImageIndex(0)
+        if (imageIndex === house.data.images.gallery.length - 1) setImageIndex(0)
         else setImageIndex(imageIndex + 1)
         break
       case Direction.Backward:
-        if (imageIndex === 0) setImageIndex(house.data.images.length - 1)
+        if (imageIndex === 0) setImageIndex(house.data.images.gallery.length - 1)
         else setImageIndex(imageIndex - 1)
         break
     }
@@ -35,7 +35,7 @@ export const ImagesPage = () => {
   if (!house.data || house.error) return <WrongMessage message={`La casa con id ${id} no existe...`} />
 
   return (
-    <div style={{ marginTop: '-2rem' }}>
+    <div style={{ margin: '-2rem 0' }}>
       {isMobile &&
         <Stack
           justifyContent='center'
@@ -44,8 +44,8 @@ export const ImagesPage = () => {
           height='calc(100vh - 6rem)'
           gap='1rem'
         >
-          <img alt='Imagen de la casa' src={house.data.images[imageIndex]} style={{ width: '100%' }} />
-          <Typography variant="body1">Foto {imageIndex + 1}/{house.data.images.length}</Typography>
+          <img alt='Imagen de la casa' src={house.data.images.gallery[imageIndex].big} style={{ width: '100%' }} />
+          <Typography variant="body1">Foto {imageIndex + 1}/{house.data.images.gallery.length}</Typography>
         </Stack>
       }
       {!isMobile &&
@@ -53,11 +53,11 @@ export const ImagesPage = () => {
           height='calc(100vh - 4rem)'
           overflow='hidden'
         >
-          <img alt='Imagen de la casa' src={house.data.images[imageIndex]} style={{ height: '100%', objectFit: 'contain' }} />
+          <img alt='Imagen de la casa' src={house.data.images.gallery[imageIndex].big} style={{ height: '100%', objectFit: 'contain' }} />
         </Stack>
       }
-      <div style={{ width: '49vw', height: '100vh', position: 'absolute', top: '0' }} onClick={() => changeImage(Direction.Backward)} />
-      <div style={{ width: '49vw', height: '100vh', position: 'absolute', top: '0', right: '0' }} onClick={() => changeImage(Direction.Forward)} />
-    </ div>
+      <div style={{ width: '49vw', height: '100%', position: 'absolute', top: '0' }} onClick={() => changeImage(Direction.Backward)} />
+      <div style={{ width: '49vw', height: '100%', position: 'absolute', top: '0', right: '0' }} onClick={() => changeImage(Direction.Forward)} />
+    </div>
   )
 }

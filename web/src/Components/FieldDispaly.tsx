@@ -6,12 +6,9 @@ interface IFieldDisplayProps {
   variant?: TypographyVariant
 }
 
-export const FieldDisplay = ({ value, units, variant }: IFieldDisplayProps) => {
-
-  return (
-    <Stack direction='row' gap='.25rem' alignItems='end'>
-      <Typography variant={variant ?? 'body1'} fontWeight='bold'>{value}</Typography>
-      <Typography variant={variant ?? 'body1'}>{units}</Typography>
-    </Stack>
-  )
-}
+export const FieldDisplay = ({ value, units, variant }: IFieldDisplayProps) => (
+  <Stack direction='row' gap='.25rem' alignItems='end'>
+    <Typography variant={variant ?? 'body1'} fontWeight='bold'>{value}</Typography>
+    <Typography variant={variant ?? 'body1'}>{units}</Typography>
+  </Stack>
+)
