@@ -57,6 +57,11 @@ export const webTheme = createTheme({
     components: {
         MuiTypography: {
             styleOverrides: {
+                root: {
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    msUserSelect: 'none'
+                },
                 h1: {
                     color: grey[900],
                     fontSize: fontSizeh1,

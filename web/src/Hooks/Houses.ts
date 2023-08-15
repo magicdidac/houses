@@ -45,17 +45,17 @@ export const useHouseById = (id: number) => {
 
   const rate = async (person: Person, rate: number) => {
     if (person === Person.Ana) {
-      await anaRate({ variables: { rate } })
+      await anaRate({ variables: { id, rate } })
     } else {
-      await didacRate({ variables: { rate } })
+      await didacRate({ variables: { id, rate } })
     }
   }
 
   const notes = async (person: Person, notes: string) => {
     if (person === Person.Ana) {
-      await anaNotes({ variables: { notes } })
+      await anaNotes({ variables: { id, notes } })
     } else {
-      await didacNotes({ variables: { notes } })
+      await didacNotes({ variables: { id, notes } })
     }
   }
 

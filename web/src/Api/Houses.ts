@@ -4,15 +4,26 @@ const allFields = `{
   id
   link
   price
-  anaRate
-  anaNotes
-  didacRate
-  didacNotes
   globalRate
+  images
   properties {
     title
     price
     banner
+    description
+  }
+  features {
+    area
+    baths
+    bedrooms
+  }
+  ana {
+    rate
+    notes
+  }
+  didac {
+    rate
+    notes
   }
 }
 `

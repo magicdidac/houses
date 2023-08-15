@@ -26,7 +26,7 @@ export const HouseRating = ({ rating, onChange, readOnly, disabled, size, discal
 
   return (
     <Stack direction='column' alignItems='center' gap='.5rem' maxWidth='150px'>
-      <Typography variant='mini' align='center'>{discalimer}</Typography>
+      {!rating && <Typography variant='mini' align='center'>{discalimer}</Typography>}
       <StyledRating
         size={size}
         value={rating}

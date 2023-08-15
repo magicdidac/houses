@@ -2,6 +2,8 @@ import { Box, Stack, Typography } from "@mui/material"
 import { IHouse } from "../interfaces"
 import { HouseRating } from "./HouseRating"
 import { useNavigate } from "react-router-dom"
+import { PriceDifference } from "./PriceDifference"
+import { getDisclamer } from "../utils"
 
 interface IHouseItemProps {
   house: IHouse
@@ -9,19 +11,6 @@ interface IHouseItemProps {
 
 export const HouseItem = ({ house }: IHouseItemProps) => {
   const navigate = useNavigate()
-
-  const getDisclaimer = (): string => {
-    if (!house.anaRate) {
-      if (!house.didacRate) {
-        return 'No habeis puntuado esta casa'
-      }
-      return 'Ana no ha puntuado esta casa'
-    }
-    if (!house.didacRate) {
-      return 'Dídac no ha puntuado esta casa'
-    }
-    return ''
-  }
 
   return (
     <Stack
@@ -55,14 +44,19 @@ export const HouseItem = ({ house }: IHouseItemProps) => {
       <Stack direction='column' padding='1rem' width='calc(100% - 2rem)' justifyContent='space-between'>
         <Box>
           <Typography variant='h6'>{house.properties.title}</Typography>
-          <Typography variant='body1'>{house.properties.price}</Typography>
+          <PriceDifference
+            price={house.price}
+            realPrice={house.properties.price}
+            titleVariant="h6"
+            subtitleVariant="body2"
+          />
         </Box>
         <Stack alignItems='end'>
           <HouseRating
             rating={house.globalRate}
             readOnly
             size='large'
-            discalimer={getDisclaimer()}
+            discalimer={getDisclamer(house)}
           />
         </Stack>
       </Stack>

@@ -1,9 +1,9 @@
-import { Container, List, Stack, Switch, Typography } from "@mui/material"
+import { Container, List, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material"
 import { useHouses } from "../Hooks/Houses"
 import { CenterLoading } from "../Components/CenterLoading"
 import { HouseItem } from "../Components/HouseItem"
 import { AddHouseButton } from "../Components/AddHouseButton"
-import { ChangeEvent, useState } from "react"
+import { MouseEvent, useState } from "react"
 import { IHouse } from "../interfaces"
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material"
 
@@ -12,8 +12,8 @@ export const HousesListPage = () => {
   const [byRating, setByRating] = useState(false)
   const [onlyWithout, setOnlyWithout] = useState(false)
 
-  const handleChangeOrder = (_: ChangeEvent<HTMLElement>, checked: boolean) => {
-    setByRating(checked)
+  const handleChangeOrder = (_: MouseEvent<HTMLElement>, value: boolean) => {
+    setByRating(value)
   }
 
   const getHouses = (): IHouse[] => {
@@ -21,7 +21,7 @@ export const HousesListPage = () => {
     let ordered = [...houses.data]
 
     if (onlyWithout) {
-      ordered = ordered.filter((house) => (!house.anaRate || !house.didacRate))
+      ordered = ordered.filter((house) => (!house.ana.rate || !house.didac.rate))
     }
 
     if (!byRating) return ordered
@@ -48,15 +48,20 @@ export const HousesListPage = () => {
     <Container>
       <Stack direction='row' justifyContent='space-between' alignItems='center'>
         <Stack direction='row' alignItems='center' gap='.5rem' style={{ cursor: 'pointer' }} onClick={() => setOnlyWithout(!onlyWithout)}>
-          {onlyWithout && <CheckBox fontSize='small' color='secondary' />}
-          {!onlyWithout && <CheckBoxOutlineBlank fontSize='small' />}
-          <Typography style={{ userSelect: 'none', WebkitUserSelect: 'none', msUserSelect: 'none' }} variant="mini">Sin puntuar</Typography>
+          {onlyWithout && <CheckBox color='secondary' />}
+          {!onlyWithout && <CheckBoxOutlineBlank />}
+          <Typography style={{ userSelect: 'none', WebkitUserSelect: 'none', msUserSelect: 'none' }} variant="body1">Sin puntuar</Typography>
         </Stack>
-        <Stack direction='row' gap='.5rem' alignItems='center'>
-          <Typography variant="mini">Creación</Typography>
-          <Switch color='secondary' onChange={handleChangeOrder} size='small' />
-          <Typography variant="mini">Puntuación</Typography>
-        </Stack>
+        <ToggleButtonGroup
+          color='secondary'
+          value={byRating}
+          exclusive
+          onChange={handleChangeOrder}
+          size='small'
+        >
+          <ToggleButton value={false}>Creación</ToggleButton>
+          <ToggleButton value={true}>Puntuación</ToggleButton>
+        </ToggleButtonGroup>
       </Stack>
       <List >
         {getHouses().map((house) => (
