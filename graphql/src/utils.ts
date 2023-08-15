@@ -70,7 +70,9 @@ const getImages = (str: string): string[] => {
     .slice(1)
     .map(img => infoBetween(img, 'src="', '"'))
 
-  return allImages
+  const quantity = parseInt(infoBetween(str, 'class="numero-fotos">', '</span').trim())
+
+  return allImages.slice(0, quantity)
 }
 
 export const parseHouse = (data: IGetAllData): IHouse => {
