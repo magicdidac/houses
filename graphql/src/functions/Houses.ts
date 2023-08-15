@@ -29,82 +29,92 @@ const getAllData = (house: any): Promise<IGetAllData> => {
   })
 }
 
-export const getHouses = async () => {
-  console.log('Get Houses')
-  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
+const formatHouses = async (data: any[]): Promise<IHouse[]> => {
   const promises: Promise<IGetAllData>[] = []
   for (const house of data) {
     promises.push(getAllData(house))
   }
   const parsedData = await Promise.all(promises)
-  const finalData = parsedData.map((house) => parseHouse(house))
+  const finalData = parsedData.map((house) => {
+    try {
+      return parseHouse(house)
+    } catch (e) {
+      callDB(`DELETE FROM Houses WHERE id = ${house.house.id}`)
+    }
+  })
 
-  return finalData
+  return finalData.filter(house => !!house) as IHouse[]
 }
 
-export const getHouseById = async (id: number) => {
-  const data = (await callDB(`${commonSelect} WHERE id = ${id}`))[0]
-  const houseWithAllData = await getAllData(data)
-  const parsedHouse = parseHouse(houseWithAllData)
+export const getHouses = async (): Promise<IHouse[]> => {
+  const data = await callDB(`${commonSelect} ORDER BY id DESC`)
+  const houses = await formatHouses(data)
 
-  return parsedHouse
+  return houses
 }
 
-export const addHouse = async (link: string, price: number, anaRate?: number, didacRate?: number, anaNotes?: string, didacNotes?: string) => {
+export const getHouseById = async (id: number): Promise<IHouse> => {
+  const data = await callDB(`${commonSelect} WHERE id = ${id}`)
+  const houses = await formatHouses(data)
+
+  return houses[0]
+}
+
+export const addHouse = async (link: string, price: number, anaRate?: number, didacRate?: number, anaNotes?: string, didacNotes?: string): Promise<boolean> => {
   await callDB(`
     INSERT INTO Houses (link, price, anaRate, anaNotes, didacRate, didacNotes)
     VALUES ("${link}", ${price}, ${anaRate ?? 'NULL'}, ${stringNullable(anaNotes)}, ${didacRate ?? 'NULL'}, ${stringNullable(didacNotes)})
   `)
 
-  return (await getHouses())[0]
+  return true
 }
 
-export const editHouse = async (id: number, link: string, price: number) => {
+export const editHouse = async (id: number, link: string, price: number): Promise<boolean> => {
   await callDB(`
     UPDATE Houses
     SET link="${link}", price=${price}
     WHERE id=${id}
   `)
 
-  return await getHouseById(id)
+  return true
 }
 
-export const anaRate = async (id: number, rate: number) => {
+export const anaRate = async (id: number, rate: number): Promise<boolean> => {
   await callDB(`
     UPDATE Houses
     SET anaRate=${rate}
     WHERE id=${id}
   `)
 
-  return await getHouseById(id)
+  return true
 }
 
-export const didacRate = async (id: number, rate: number) => {
+export const didacRate = async (id: number, rate: number): Promise<boolean> => {
   await callDB(`
     UPDATE Houses
     SET didacRate=${rate}
     WHERE id=${id}
   `)
 
-  return await getHouseById(id)
+  return true
 }
 
-export const anaNotes = async (id: number, notes: string) => {
+export const anaNotes = async (id: number, notes: string): Promise<boolean> => {
   await callDB(`
     UPDATE Houses
     SET anaNotes="${notes}"
     WHERE id=${id}
   `)
 
-  return await getHouseById(id)
+  return true
 }
 
-export const didacNotes = async (id: number, notes: string) => {
+export const didacNotes = async (id: number, notes: string): Promise<boolean> => {
   await callDB(`
     UPDATE Houses
     SET didacNotes="${notes}"
     WHERE id=${id}
   `)
 
-  return await getHouseById(id)
+  return true
 }

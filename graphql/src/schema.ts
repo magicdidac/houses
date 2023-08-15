@@ -7,12 +7,12 @@ type Query {
 }
 
 type Mutation {
-    addHouse(link: String!, price: Int!, anaRate: Int, didacRate: Int, anaNotes: String, didacNotes: String): House
-    editHouse(id: Int!, link: String!, price: Int!): House
-    anaRate(id: Int!, rate: Int!): House
-    didacRate(id: Int!, rate: Int!): House
-    anaNotes(id: Int!, notes: String!): House
-    didacNotes(id: Int!, notes: String!): House
+    addHouse(link: String!, price: Int!, anaRate: Int, didacRate: Int, anaNotes: String, didacNotes: String): Boolean
+    editHouse(id: Int!, link: String!, price: Int!): Boolean
+    anaRate(id: Int!, rate: Int!): Boolean
+    didacRate(id: Int!, rate: Int!): Boolean
+    anaNotes(id: Int!, notes: String!): Boolean
+    didacNotes(id: Int!, notes: String!): Boolean
 }
 
 type House {
