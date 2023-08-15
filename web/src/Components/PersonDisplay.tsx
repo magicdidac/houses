@@ -70,7 +70,7 @@ export const PersonDisplay = ({ notes, rate, name, disabled, onChangeRate, onCha
       <HouseRating
         rating={rate}
         disabled={disabled}
-        discalimer={`${name} no ha puntuado esta casa`}
+        message={`${name} no ha puntuado esta casa`}
         onChange={onChangeRate}
       />
       <Dialog

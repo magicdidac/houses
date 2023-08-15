@@ -1,7 +1,7 @@
 {
   "name": "futura-casa",
   "homepage": "https://house.magicdidac.com",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.8.0",
@@ -24,8 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "build": "dotenv -e .env.production react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.2.1"
   }
 }

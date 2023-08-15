@@ -11,7 +11,7 @@ export const formatCurrency = (value: number): string => {
     return valueWithDots + ' €'
 }
 
-export const getDisclamer = (house: IHouse): string => {
+export const getRatingMessage = (house: IHouse): string => {
     if (!house.ana.rate) {
         if (!house.didac.rate) {
             return 'No habeis puntuado esta casa'

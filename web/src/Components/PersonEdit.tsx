@@ -30,7 +30,7 @@ export const PersonEdit = ({ name, rate, notes, onRateChange, onNotesChange, dis
         <HouseRating
           disabled={disabled}
           rating={rate}
-          discalimer={!rate ? `${name} no ha puntuado esta casa` : ''}
+          message={`${name} no ha puntuado esta casa`}
           onChange={onRateChange}
           size='large'
         />

@@ -1,5 +1,5 @@
 import { Share } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import { IconButton, Tooltip } from "@mui/material"
 import { IHouse } from "../interfaces"
 import { useNotifications } from "@magicdidac/notifications"
 import { useMobile } from "../Hooks/Mobile"
@@ -27,11 +27,13 @@ export const ShareButton = ({ house, size }: IShareButtonProps) => {
   }
 
   return (
-    <IconButton
-      size={size}
-      onClick={handleClick}
-    >
-      <Share color='secondary' fontSize={size} />
-    </IconButton>
+    <Tooltip title='Compartir'>
+      <IconButton
+        size={size}
+        onClick={handleClick}
+      >
+        <Share color='secondary' fontSize={size} />
+      </IconButton>
+    </Tooltip>
   )
 }

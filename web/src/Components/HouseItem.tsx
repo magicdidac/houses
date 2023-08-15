@@ -3,7 +3,7 @@ import { IHouse } from "../interfaces"
 import { HouseRating } from "./HouseRating"
 import { useNavigate } from "react-router-dom"
 import { PriceDifference } from "./PriceDifference"
-import { getDisclamer } from "../utils"
+import { getRatingMessage } from "../utils"
 
 interface IHouseItemProps {
   house: IHouse
@@ -53,10 +53,11 @@ export const HouseItem = ({ house }: IHouseItemProps) => {
         </Box>
         <Stack alignItems='end'>
           <HouseRating
-            rating={house.globalRate}
+            half
             readOnly
             size='large'
-            discalimer={getDisclamer(house)}
+            rating={house.globalRate}
+            message={getRatingMessage(house)}
           />
         </Stack>
       </Stack>

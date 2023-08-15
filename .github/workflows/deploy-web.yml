@@ -7,6 +7,8 @@ on:
         required: true
       FTP_PASSWORD:
         required: true
+      GRAPHQL:
+        required: true
   push:
     branches:
      - "main"
@@ -33,6 +35,8 @@ jobs:
 
       - name: Build web
         run: yarn build:web
+        env:
+          REACT_APP_GRAPHQL: ${{ secrets.GRAPHQL }}
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
