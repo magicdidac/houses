@@ -5,25 +5,22 @@ import { parseHouse, stringNullable } from "../utils"
 
 const commonSelect = 'SELECT * FROM Houses'
 
-const getAllData = (house: IHouse): Promise<IGetAllData> => {
+const getAllData = (house: any): Promise<IGetAllData> => {
   return new Promise((resolve) => {
     axios.get(house.link).then((response) => {
       resolve(
         {
           habitacliaData: response.data as string,
           house: {
-            id: house.id,
-            link: house.link,
-            price: house.price,
-            properties: {
-              banner: '',
-              price: 0,
-              title: ''
+            ...house,
+            ana: {
+              rate: house.anaRate,
+              notes: house.anaNotes
             },
-            anaRate: house.anaRate,
-            anaNotes: house.anaNotes,
-            didacRate: house.didacRate,
-            didacNotes: house.didacNotes,
+            didac: {
+              rate: house.didacRate,
+              notes: house.didacNotes
+            },
             globalRate: (house.anaRate && house.didacRate) ? (house.anaRate + house.didacRate) / 2 : undefined,
           }
         }

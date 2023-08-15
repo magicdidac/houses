@@ -19,17 +19,30 @@ type House {
     id: Int!
     link: String!
     price: Int!
-    properties: HouseProperties!
-    anaRate: Int
-    anaNotes: String
-    didacRate: Int
-    didacNotes: String
     globalRate: Float
+    properties: HouseProperties!
+    features: HouseFeatures!
+    images: [String]!
+    ana: PersonInfo!
+    didac: PersonInfo!
+}
+
+type PersonInfo {
+    rate: Int
+    notes: String
 }
 
 type HouseProperties {
     title: String!
     price: Int!
     banner: String!
+    description: String!
 }
+
+type HouseFeatures {
+    area: Int!
+    baths: Int
+    bedrooms: Int
+}
+
 `

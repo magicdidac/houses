@@ -1,8 +1,19 @@
-
 export interface IHouseProperties {
   title: string
   price: number
   banner: string
+  description: string
+}
+
+export interface IHouseFeatures {
+  area: number
+  bedrooms?: number
+  baths?: number
+}
+
+export interface IPersonInfo {
+  rate?: number
+  notes?: string
 }
 
 export interface IHouse {
@@ -10,11 +21,11 @@ export interface IHouse {
   link: string
   price: number
   properties: IHouseProperties
-  anaRate?: number
-  anaNotes?: string
-  didacRate?: number
-  didacNotes?: string
+  features: IHouseFeatures
+  images: string[]
   globalRate?: number
+  ana: IPersonInfo
+  didac: IPersonInfo
 }
 
 export interface IGetAllData {
