@@ -21,7 +21,7 @@ export const HouseInfo = ({ house }: IHouseInfoProps) => {
         />
         <Typography variant="h5">{house.properties.title}</Typography>
         <Stack direction='row' gap='1rem'>
-          <FieldDisplay value={house.features.area} units={<p>m<sup>2</sup></p>} />
+          <FieldDisplay value={house.features.area} units={<>m<sup>2</sup></>} />
           {house.features.bedrooms && <FieldDisplay value={house.features.bedrooms} units='hab.' />}
           {house.features.baths && <FieldDisplay value={house.features.baths} units={(house.features.baths > 1) ? 'baños' : 'baño'} />}
         </Stack>

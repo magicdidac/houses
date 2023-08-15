@@ -1,15 +1,15 @@
 import { Add, Close } from "@mui/icons-material"
-import { AppBar, Button, Dialog, DialogContent, Fab, IconButton, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Button, Dialog, DialogContent, Fab, IconButton, Stack, TextField, Typography } from "@mui/material"
 import { useAddHouse } from "../Hooks/Houses"
 import { useState } from "react"
 import { PersonEdit } from "./PersonEdit"
 import { useNotifications } from "@magicdidac/notifications"
+import { useMobile } from "../Hooks/Mobile"
 
 
 export const AddHouseButton = () => {
   const addHouse = useAddHouse()
-  const theme = useTheme()
-  const match = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobile = useMobile()
   const notification = useNotifications()
   const [open, setOpen] = useState(false)
   const [link, setLink] = useState('')
@@ -57,7 +57,7 @@ export const AddHouseButton = () => {
       <Fab color='secondary' style={{ position: 'fixed', bottom: '1rem', right: '1rem' }} onClick={() => setOpen(true)}>
         <Add />
       </Fab>
-      <Dialog open={open} onClose={handleClose} fullScreen={match} style={{ overflowX: 'hidden' }} disableRestoreFocus>
+      <Dialog open={open} onClose={handleClose} fullScreen={isMobile} style={{ overflowX: 'hidden' }} disableRestoreFocus>
         <AppBar position='relative'>
           <Stack direction='row' justifyContent='space-between' alignItems='center' padding='.5rem 1rem' width='calc(100% - 2rem)'>
             <Typography variant="h6" color='white'>Añadir Casa</Typography>
