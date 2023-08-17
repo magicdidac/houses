@@ -32,3 +32,8 @@ export const formatHabitacliaLink = (str: string): string => {
 
     return url
 }
+
+export const formatSeconds = (seconds: number): string => {
+    const time = new Date(seconds * 1000).toISOString().slice(11, 19)
+    return time
+}

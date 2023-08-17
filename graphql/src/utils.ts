@@ -18,20 +18,25 @@ const replaceAll = (str: string, from: string, to: string): string => {
 }
 
 const getProperties = (houseData: string, data: string): IHouseProperties => {
-  const banner = infoBetween(data, 'print-xl" src="', '">')
+  const desktopInfo = infoBetween(data, 'var FichaDesktopDTO = {', '};')
 
-  const title = infoBetween(houseData, '<h1>', '</h1>')
+  const title = infoBetween(desktopInfo, "destacado: '", "',")
+  const price = parseInt(infoBetween(desktopInfo, "precioProducto: '", "',"))
+  const description = replaceAll(infoBetween(desktopInfo, "observaciones: '", "',"), '\\u003cbr\\u003e', '\n')
 
-  let price = infoBetween(houseData, 'itemprop="price">', '</span>')
-  price = price.slice(0, -1).trim().replace('.', '')
-
-  let description = replaceAll(infoBetween(houseData, 'class="detail-description">', '</p'), '<br>', '\n')
+  const locationInfo = infoBetween(data, "var SegmentDTO = {", "};")
+  const city = infoBetween(locationInfo, 'city\\":\\"', '\\",')
 
   return {
     title,
-    banner,
-    price: parseInt(price),
+    banner: '',
+    price,
     description,
+    // city,
+    // gps: {
+    //   lat,
+    //   lon
+    // }
   }
 }
 
@@ -88,7 +93,10 @@ export const parseHouse = ({ habitacliaData, house }: IGetAllData): IHouse => {
 
   return {
     ...house,
-    properties,
+    properties: {
+      ...properties,
+      banner: images.gallery[0].main
+    },
     features,
     images
   }

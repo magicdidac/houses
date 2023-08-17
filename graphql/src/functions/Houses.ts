@@ -40,7 +40,8 @@ const formatHouses = async (data: any[]): Promise<IHouse[]> => {
     try {
       return parseHouse(house)
     } catch (e) {
-      console.log('Disabling house:', house.house.id)
+      console.error(e)
+      console.log('Disabling house:', house.house.id, '(', house.house.link, ')')
       callDB(`
         UPDATE Houses
         SET disabled=TRUE
