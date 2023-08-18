@@ -9,8 +9,8 @@ export class GQLStack extends Stack {
         super(app, id, props)
         const lambda = new NodejsFunction(this, 'apollo-lambda', {
             handler: 'handler',
-            architecture: Architecture.X86_64,
-            memorySize: 512,
+            architecture: Architecture.ARM_64,
+            memorySize: 128,
             timeout: Duration.seconds(10),
             entry: path.join(__dirname, '/../../graphql/src/index.ts'),
             environment: {
