@@ -4,6 +4,7 @@ export const typeDefs = gql`
 type Query {
     getHouses: [House]
     getHouseById(id: Int!): House
+    isDuplicated(link: String!): Int
 }
 
 type Mutation {

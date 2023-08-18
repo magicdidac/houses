@@ -40,6 +40,12 @@ query {
 }
 `
 
+export const IS_DUPLICATED = gql`
+query ($link: String!) {
+  isDuplicated(link: $link)
+}
+`
+
 export const GET_HOUSE_BY_ID = gql`
 query ($id: Int!) {
   getHouseById(id:$id) ${allFields}

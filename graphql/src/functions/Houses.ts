@@ -149,3 +149,9 @@ export const didacNotes = async (id: number, notes: string): Promise<boolean> =>
 
   return true
 }
+
+export const isDuplicated = async (link: string): Promise<number | undefined> => {
+  const houses = await callDB(`SELECT id FROM Houses WHERE disabled = FALSE AND link = "${link}"`)
+
+  return (houses.length === 0) ? undefined : houses[0].id
+}

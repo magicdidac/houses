@@ -29,6 +29,7 @@ export const formatHabitacliaLink = (str: string): string => {
     if (url.includes('m.')) url = url.replace('m.', '')
     if (url.includes('?')) url = url.split('?')[0]
     if (url.includes('.htm')) url = url.split('.htm')[0] + '.htm'
+    if (!url.includes('www.')) url = url.replace('//', '//www.')
 
     return url
 }

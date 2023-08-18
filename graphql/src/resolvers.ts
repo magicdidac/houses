@@ -1,9 +1,10 @@
-import { addHouse, anaNotes, anaRate, didacNotes, didacRate, disableHouse, editHouse, getHouseById, getHouses } from "./functions/Houses";
+import { addHouse, anaNotes, anaRate, didacNotes, didacRate, disableHouse, editHouse, getHouseById, getHouses, isDuplicated } from "./functions/Houses";
 
 export const resolvers = {
     Query: {
         getHouses: () => getHouses(),
         getHouseById: (_, args) => getHouseById(args.id),
+        isDuplicated: (_, args) => isDuplicated(args.link),
     },
     Mutation: {
         addHouse: (_, args) => addHouse(args.link, args.price, args.anaRate, args.didacRate, args.anaNotes, args.didacNotes),

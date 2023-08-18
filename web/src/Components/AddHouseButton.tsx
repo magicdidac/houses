@@ -1,4 +1,4 @@
-import { Add, Close } from "@mui/icons-material"
+import { Add, Close, Launch } from "@mui/icons-material"
 import { AppBar, Button, Dialog, DialogContent, Fab, IconButton, Stack, TextField, Typography } from "@mui/material"
 import { useAddHouse } from "../Hooks/Houses"
 import { useState } from "react"
@@ -6,6 +6,7 @@ import { PersonEdit } from "./PersonEdit"
 import { useNotifications } from "@magicdidac/notifications"
 import { useMobile } from "../Hooks/Mobile"
 import { formatHabitacliaLink } from "../utils"
+import { Link } from "react-router-dom"
 
 export const AddHouseButton = () => {
   const addHouse = useAddHouse()
@@ -20,6 +21,8 @@ export const AddHouseButton = () => {
   const [didacNotes, setDidacNotes] = useState<string | undefined>()
   const [submitting, setSubmitting] = useState(false)
 
+  const [duplicatedHouse, setDuplicatedHouse] = useState<number | undefined>()
+
   const handleClose = () => {
     if (submitting) return
 
@@ -30,6 +33,7 @@ export const AddHouseButton = () => {
     setAnaNotes(undefined)
     setDidacRate(undefined)
     setDidacNotes(undefined)
+    setDuplicatedHouse(undefined)
   }
 
   const handleSubmit = async () => {
@@ -42,7 +46,7 @@ export const AddHouseButton = () => {
       const anaCorrectNotes = (!anaNotes || anaNotes.trim() === '') ? undefined : anaNotes
       const didacCorrectNotes = (!didacNotes || didacNotes.trim() === '') ? undefined : didacNotes
 
-      await addHouse(cleanLink, finalPrice, anaCorrectRate, anaCorrectNotes, didacCorrectRate, didacCorrectNotes)
+      await addHouse.add(cleanLink, finalPrice, anaCorrectRate, anaCorrectNotes, didacCorrectRate, didacCorrectNotes)
       notification.success('¡La casa ha sido añadida con éxito!')
       setSubmitting(false)
       handleClose()
@@ -50,6 +54,19 @@ export const AddHouseButton = () => {
       notification.error('Los campos Link y Precio son obligatorios')
       setSubmitting(false)
     }
+  }
+
+  const handleDuplicated = async () => {
+    if (link !== '') {
+      console.log(formatHabitacliaLink(link))
+      const houseId = await addHouse.isDuplicated(formatHabitacliaLink(link))
+      if (houseId) setDuplicatedHouse(houseId)
+    }
+  }
+
+  const handleChangeLink = (event: any) => {
+    setLink(event.target.value)
+    setDuplicatedHouse(undefined)
   }
 
   return (
@@ -66,13 +83,23 @@ export const AddHouseButton = () => {
         </AppBar>
         <DialogContent>
           <Stack gap='1rem'>
-            <TextField
-              disabled={submitting}
-              autoFocus
-              label='Link de la casa'
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-            />
+            <Stack>
+              <TextField
+                disabled={submitting}
+                autoFocus
+                label='Link de la casa'
+                value={link}
+                onChange={handleChangeLink}
+                onBlur={handleDuplicated}
+                error={!!duplicatedHouse}
+              />
+              {!!duplicatedHouse &&
+                <Stack direction='row' alignItems='center' gap='.5rem' marginTop='.5rem'>
+                  <Typography variant='body2' color='error'>La casa ya existe</Typography>
+                  <Link to={`/house/${duplicatedHouse}`}><Launch fontSize="small" color='error' /></Link>
+                </Stack>
+              }
+            </Stack>
             <TextField
               disabled={submitting}
               label='Precio'
@@ -108,7 +135,7 @@ export const AddHouseButton = () => {
             </Stack>
           </Stack>
           <Stack alignItems='end' marginTop='1rem'>
-            <Button disabled={submitting} variant='contained' color='secondary' onClick={handleSubmit}>Aceptar</Button>
+            <Button disabled={submitting || !!duplicatedHouse} variant='contained' color='secondary' onClick={handleSubmit}>Aceptar</Button>
           </Stack>
         </DialogContent>
       </Dialog>

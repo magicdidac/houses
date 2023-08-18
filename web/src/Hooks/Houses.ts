@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@apollo/client"
-import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID } from "../Api/Houses"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
+import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID, IS_DUPLICATED } from "../Api/Houses"
 import { IHouse } from "../Api/interfaces"
 
 enum Person {
@@ -23,11 +23,22 @@ export const useAddHouse = () => {
     refetchQueries: [{ query: GET_HOUSES }]
   })
 
+  const [duplicated] = useLazyQuery(IS_DUPLICATED)
+
   const add = async (link: string, price: number, anaRate?: number, anaNotes?: string, didacRate?: number, didacNotes?: string) => {
     await addHouse({ variables: { link, price, anaRate, anaNotes, didacRate, didacNotes } })
   }
 
-  return add
+  const isDuplicated = async (link: string): Promise<number | undefined> => {
+    const data = await duplicated({ variables: { link } })
+
+    return (data.data && data.data.isDuplicated) ? data.data.isDuplicated : undefined
+  }
+
+  return {
+    add,
+    isDuplicated
+  }
 }
 
 export const useHouseById = (id: number) => {
