@@ -41,8 +41,8 @@ export const HouseItem = ({ house }: IHouseItemProps) => {
       >
         <img alt="banner-xl" src={house.images[0]} style={{ height: '100%', width: '100%' }} />
       </Box>
-      <Stack direction='column' padding='1rem' width='calc(100% - 2rem)' justifyContent='space-between'>
-        <Stack direction='row' justifyContent='space-between'>
+      <Stack direction='column' padding='1rem' width='calc(100% - 2rem)' justifyContent='space-between' gap='1rem'>
+        <Stack direction='row' justifyContent='space-between' gap='1rem'>
           <Box>
             <Typography variant='h6'>{house.title}</Typography>
             <Typography variant="body1">({house.location.city})</Typography>

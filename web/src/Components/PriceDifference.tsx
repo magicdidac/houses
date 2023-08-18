@@ -20,21 +20,21 @@ export const PriceDifference = ({ price, realPrice, alignItems, titleVariant, su
       return (
         <Stack direction='row' gap='.5rem'>
           <ImportExport fontSize='small' style={{ color: 'grey' }} />
-          <Typography variant={subtitleVariant ?? 'body1'} color='grey'>{formatCurrency(realPrice)}</Typography>
+          <Typography variant={subtitleVariant ?? 'body1'} noWrap color='grey'>{formatCurrency(realPrice)}</Typography>
         </Stack>
       )
     } else if (difference > 0) {
       return (
         <Stack direction='row' gap='.5rem'>
           <Download fontSize='small' style={{ color: 'green' }} />
-          <Typography variant={subtitleVariant ?? 'body1'} color='green'>{formatCurrency(realPrice)}</Typography>
+          <Typography variant={subtitleVariant ?? 'body1'} noWrap color='green'>{formatCurrency(realPrice)}</Typography>
         </Stack>
       )
     } else {
       return (
         <Stack direction='row' gap='.5rem'>
           <Upload fontSize='small' style={{ color: 'red' }} />
-          <Typography variant={subtitleVariant ?? 'body1'} color='red'>{formatCurrency(realPrice)}</Typography>
+          <Typography variant={subtitleVariant ?? 'body1'} noWrap color='red'>{formatCurrency(realPrice)}</Typography>
         </Stack>
       )
     }
@@ -43,7 +43,7 @@ export const PriceDifference = ({ price, realPrice, alignItems, titleVariant, su
 
   return (
     <Stack alignItems={alignItems ?? 'end'}>
-      <Typography variant={titleVariant ?? 'h2'}>{formatCurrency(price)}</Typography>
+      <Typography variant={titleVariant ?? 'h2'} noWrap>{formatCurrency(price)}</Typography>
       {getRealPrice()}
     </Stack>
   )
