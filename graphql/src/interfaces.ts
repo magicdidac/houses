@@ -24,6 +24,7 @@ export interface IHouse {
   title: string
   description: string
   images: string[]
+  mapImage: string
   features: IHouseFeatures
   location: IHouseLocation
   globalRate?: number
@@ -39,6 +40,7 @@ export interface IDBHouse {
   title: string
   description: string
   images: string
+  mapImage: string
   city: string
   anaRate?: number
   anaNotes?: string

@@ -17,7 +17,7 @@ export const HouseDescription = ({ house }: IHouseDescriptionProps) => {
       <Container style={{ marginTop: '2rem' }}>
         <Typography variant="h6">Descripción</Typography>
         <div style={{ maxHeight: (showMore) ? '100%' : '200px', overflow: 'hidden', maskImage: (showMore) ? 'none' : linearGradient, WebkitMaskImage: (showMore) ? 'none' : linearGradient }}>
-          <Typography variant="body1" textAlign='justify' sx={{ whiteSpace: 'pre-line' }}>{house.properties.description}</Typography>
+          <Typography variant="body1" textAlign='justify' sx={{ whiteSpace: 'pre-line' }}>{house.description}</Typography>
         </div>
         {!showMore && <Stack alignItems='center'>
           <div>

@@ -39,18 +39,21 @@ export const HouseItem = ({ house }: IHouseItemProps) => {
         }}
         display='inherit'
       >
-        <img alt="banner-xl" src={house.properties.banner} style={{ height: '100%', width: '100%' }} />
+        <img alt="banner-xl" src={house.images[0]} style={{ height: '100%', width: '100%' }} />
       </Box>
       <Stack direction='column' padding='1rem' width='calc(100% - 2rem)' justifyContent='space-between'>
-        <Box>
-          <Typography variant='h6'>{house.properties.title}</Typography>
+        <Stack direction='row' justifyContent='space-between'>
+          <Box>
+            <Typography variant='h6'>{house.title}</Typography>
+            <Typography variant="body1">({house.location.city})</Typography>
+          </Box>
           <PriceDifference
             price={house.price}
-            realPrice={house.properties.price}
+            realPrice={house.realPrice}
             titleVariant="h6"
             subtitleVariant="body2"
           />
-        </Box>
+        </Stack>
         <Stack alignItems='end'>
           <HouseRating
             half

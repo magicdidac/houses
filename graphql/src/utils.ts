@@ -18,6 +18,8 @@ export const replaceAll = (str: string, from: string, to: string): string => {
   return str
 }
 
+export const delay = (miliseconds: number): Promise<void> => (new Promise((resolve) => setTimeout(resolve, miliseconds)))
+
 const getProperties = (data: string) => {
   const desktopInfo = infoBetween(data, 'var FichaDesktopDTO = {', '};')
 
@@ -77,7 +79,7 @@ const getLocation = (data: string): IHouseLocation => {
 }
 
 const formatSeconds = (seconds: number): string => {
-  const time = new Date(seconds * 1000).toISOString().slice(11, 19)
+  const time = new Date(seconds * 1000).toISOString().slice(11, 16)
   return time
 }
 
@@ -107,6 +109,10 @@ const getImages = (data: string): string[] => {
   return imagesObject.map(img => (img.URLXL))
 }
 
+export const getMapImage = (data: string): string => {
+  return infoBetween(data, "mapImage: '", "',")
+}
+
 export const calculateGlobalRate = (anaRate?: number, didacRate?: number): number | undefined => {
   if (anaRate && didacRate) return (anaRate + didacRate) / 2
   return undefined
@@ -120,6 +126,7 @@ export const getCompletHouse = async (link: string, price: number, anaRate?: num
   const cars = await getCarDurations(location)
   const images = getImages(habitaclia)
   const { title, description, realPrice } = getProperties(habitaclia)
+  const mapImage = getMapImage(habitaclia)
 
   return {
     id: 0,
@@ -129,6 +136,7 @@ export const getCompletHouse = async (link: string, price: number, anaRate?: num
     title: title,
     description: description,
     images: replaceAll((JSON.stringify(images)), '"', "'"),
+    mapImage: mapImage,
     city: location.city,
     anaRate: anaRate,
     anaNotes: anaNotes,

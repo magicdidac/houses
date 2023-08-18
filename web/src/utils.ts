@@ -1,4 +1,4 @@
-import { IHouse } from "./Api/interfaces"
+import { IHouse, IHouseLocation } from "./Api/interfaces"
 
 export const formatNumber = (value: number): string => {
     if (value === 0) return '00'
@@ -36,4 +36,12 @@ export const formatHabitacliaLink = (str: string): string => {
 export const formatSeconds = (seconds: number): string => {
     const time = new Date(seconds * 1000).toISOString().slice(11, 19)
     return time
+}
+
+export const createMapsRouteLink = (house: IHouseLocation, personHouse: { lat: string, lon: string }): string => {
+    return `https://www.google.es/maps/dir/${personHouse.lat},${personHouse.lon}/${house.lat},${house.lon}/data=!3m1!4b1!4m2!4m1!3e0?entry=ttu`
+}
+
+export const createMapsPlaceLink = (location: IHouseLocation): string => {
+    return `https://www.google.es/maps/place/${location.lat},${location.lon}/15.5z`
 }

@@ -17,7 +17,7 @@ export const ShareButton = ({ house, size }: IShareButtonProps) => {
     const url = `https://house.magicdidac.com/house/${house.id}`
     if (isMobile) {
       navigator.share({
-        title: house.properties.title,
+        title: house.title,
         url
       })
     } else {

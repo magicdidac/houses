@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID } from "../Api/Houses"
+import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID } from "../Api/Houses"
 import { IHouse } from "../Api/interfaces"
 
 enum Person {
@@ -33,11 +33,16 @@ export const useAddHouse = () => {
 export const useHouseById = (id: number) => {
   const refetchQueries = [{ query: GET_HOUSES }, { query: GET_HOUSE_BY_ID, variables: { id } }]
   const { data, error, loading } = useQuery(GET_HOUSE_BY_ID, { variables: { id } })
+  const [disableHouse] = useMutation(DISABLE_HOUSE, { refetchQueries: [{ query: GET_HOUSES }] })
   const [editHouse] = useMutation(EDIT_HOUSE, { refetchQueries })
   const [anaRate] = useMutation(ANA_RATE, { refetchQueries })
   const [anaNotes] = useMutation(ANA_NOTES, { refetchQueries })
   const [didacRate] = useMutation(DIDAC_RATE, { refetchQueries })
   const [didacNotes] = useMutation(DIDAC_NOTES, { refetchQueries })
+
+  const disable = async () => {
+    await disableHouse({ variables: { id } })
+  }
 
   const edit = async (link: string, price: number) => {
     await editHouse({ variables: { link, price } })
@@ -63,6 +68,7 @@ export const useHouseById = (id: number) => {
     data: (data && data.getHouseById) ? data.getHouseById as IHouse : null,
     error,
     loading,
+    disable,
     edit,
     ana: {
       rate: async (value: number) => await rate(Person.Ana, value),

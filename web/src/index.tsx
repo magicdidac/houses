@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { webTheme } from './theme';
-import { NotificationProvider, PositionY } from '@magicdidac/notifications';
 import { ApolloProvider } from '@apollo/client';
 import { ApiClient } from './Api';
 
@@ -16,11 +15,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={webTheme}>
       <BrowserRouter>
-        <NotificationProvider positionY={PositionY.top}>
           <ApolloProvider client={ApiClient}>
             <App />
           </ApolloProvider>
-        </NotificationProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

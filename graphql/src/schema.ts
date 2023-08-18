@@ -16,6 +16,7 @@ type Mutation {
         didacNotes: String,
 
     ): Boolean
+    disableHouse(id: Int!): Boolean
     editHouse(id: Int!, link: String!, price: Int!): Boolean
     anaRate(id: Int!, rate: Int!): Boolean
     didacRate(id: Int!, rate: Int!): Boolean
@@ -31,6 +32,7 @@ type House {
     title: String!
     description: String!
     images: [String]!
+    mapImage: String!
     features: HouseFeatures!
     location: HouseLocation!
     globalRate: Float
@@ -53,5 +55,6 @@ type HouseFeatures {
 type HouseLocation {
     lat: String!
     lon: String!
+    city: String!
 }
 `

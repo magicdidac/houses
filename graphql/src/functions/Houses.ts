@@ -14,6 +14,7 @@ const formatHouses = (data: IDBHouse[]): IHouse[] => {
     title: house.title,
     description: house.description,
     images: JSON.parse(replaceAll(house.images, "'", '"')),
+    mapImage: house.mapImage,
     globalRate: calculateGlobalRate(house.anaRate, house.didacRate),
     location: {
       lat: house.lat,
@@ -67,6 +68,7 @@ export const addHouse = async (
       title: `"${house.title}"`,
       description: `"${house.description}"`,
       images: `"${house.images}"`,
+      mapImage: `"${house.mapImage}"`,
       city: `"${house.city}"`,
       lat: `"${house.lat}"`,
       lon: `"${house.lon}"`,
@@ -86,6 +88,16 @@ export const addHouse = async (
     console.log(e)
     return false
   }
+}
+
+export const disableHouse = async (id: number): Promise<boolean> => {
+  await callDB(`
+    UPDATE Houses
+    SET disabled=TRUE
+    WHERE id=${id}
+  `)
+
+  return true
 }
 
 export const editHouse = async (id: number, link: string, price: number): Promise<boolean> => {

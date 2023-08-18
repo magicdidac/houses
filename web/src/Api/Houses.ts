@@ -1,36 +1,35 @@
 import { gql } from "@apollo/client";
 
-const allFields = `{
+const allFields = `
+{
   id
   link
   price
-  globalRate
-  images {
-    gallery {
-      main
-      small
-      big
-    }
-    map
-  }
-  properties {
-    title
-    price
-    banner
-    description
-  }
+  realPrice
+  title
+  description
+  images
+  mapImage
   features {
     area
+    rooms
     baths
-    bedrooms
   }
+  location {
+    lat
+    lon
+    city
+  }
+  globalRate
   ana {
     rate
     notes
+    carDuration
   }
   didac {
     rate
     notes
+    carDuration
   }
 }
 `
@@ -80,5 +79,11 @@ mutation ($id: Int!, $notes: String!) {
 export const DIDAC_NOTES = gql`
 mutation ($id: Int!, $notes: String!) {
   didacNotes(id: $id, notes: $notes)
+}
+`
+
+export const DISABLE_HOUSE = gql`
+mutation ($id: Int!){
+  disableHouse(id: $id)
 }
 `
