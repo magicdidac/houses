@@ -1,7 +1,7 @@
 {
   "name": "futura-casa",
   "homepage": "https://house.magicdidac.com",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.8.0",
