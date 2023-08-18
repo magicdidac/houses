@@ -1,5 +1,6 @@
-import { IHouse, IHouseFeatures, IHouseImages, IHouseProperties } from "./interfaces"
-import { IGetAllData, IImagesObject } from "./utilInterfaces"
+import axios from "axios"
+import { IDBHouse, IHouseFeatures, IHouseLocation } from "./interfaces"
+import { AnaHouse, DidacHouse } from "./constants"
 
 export const stringNullable = (value?: string) => {
   if (!value) return 'NULL'
@@ -10,33 +11,24 @@ const infoBetween = (str: string, start: string, end: string) => {
   return str.split(start)[1].split(end)[0]
 }
 
-const replaceAll = (str: string, from: string, to: string): string => {
+export const replaceAll = (str: string, from: string, to: string): string => {
   if (str.includes(from)) {
     return replaceAll(str.replace(from, to), from, to)
   }
   return str
 }
 
-const getProperties = (houseData: string, data: string): IHouseProperties => {
+const getProperties = (data: string) => {
   const desktopInfo = infoBetween(data, 'var FichaDesktopDTO = {', '};')
 
   const title = infoBetween(desktopInfo, "destacado: '", "',")
-  const price = parseInt(infoBetween(desktopInfo, "precioProducto: '", "',"))
+  const realPrice = parseInt(infoBetween(desktopInfo, "precioProducto: '", "',"))
   const description = replaceAll(infoBetween(desktopInfo, "observaciones: '", "',"), '\\u003cbr\\u003e', '\n')
-
-  const locationInfo = infoBetween(data, "var SegmentDTO = {", "};")
-  const city = infoBetween(locationInfo, 'city\\":\\"', '\\",')
 
   return {
     title,
-    banner: '',
-    price,
-    description,
-    // city,
-    // gps: {
-    //   lat,
-    //   lon
-    // }
+    realPrice,
+    description
   }
 }
 
@@ -50,13 +42,13 @@ const getFeatures = (str: string): IHouseFeatures => {
 
   let area = 0
   let baths = 0
-  let bedrooms = 0
+  let rooms = 0
 
   for (const feature of featureList) {
     if (feature.includes('m<sup>2')) {
       area = parseInt(infoBetween(feature, '<strong>', '</strong>'))
     } else if (feature.includes('hab.')) {
-      bedrooms = parseInt(infoBetween(feature, '<strong>', '</strong>'))
+      rooms = parseInt(infoBetween(feature, '<strong>', '</strong>'))
     } else if (feature.includes('ba&#241;o')) {
       baths = parseInt(infoBetween(feature, '<strong>', '</strong>'))
     }
@@ -64,40 +56,90 @@ const getFeatures = (str: string): IHouseFeatures => {
 
   return {
     area,
-    bedrooms,
+    rooms,
     baths: baths === 0 ? undefined : baths,
   }
 }
 
-const getImages = (str: string): IHouseImages => {
-  const mediaData = infoBetween(str, 'var WideMediaDTO = ', '};')
-  const imagesObject = (JSON.parse(replaceAll(infoBetween(mediaData, 'image: JSON.parse("', '"),'), '\\"', '"')) as IImagesObject[]).sort((a, b) => a.Orden - b.Orden)
-  const mapImage = infoBetween(mediaData, "mapImage: '", "',")
+const getLocation = (data: string): IHouseLocation => {
+  const cityInfo = infoBetween(data, "var SegmentDTO = {", "};")
+  const city = infoBetween(cityInfo, 'city\\":\\"', '\\",')
+
+  const locationInfo = infoBetween(data, "var FichaDesktopDTO = {", "};")
+  const lat = infoBetween(locationInfo, 'VGPSLat\\":', ',')
+  const lon = infoBetween(locationInfo, 'VGPSLon\\":', ',')
 
   return {
-    map: mapImage,
-    gallery: imagesObject.map(img => ({
-      main: img.URLG,
-      small: img.URL,
-      big: img.URLXL,
-    }))
+    city,
+    lat,
+    lon
   }
 }
 
-export const parseHouse = ({ habitacliaData, house }: IGetAllData): IHouse => {
-  const houseData = habitacliaData.split('id="ficha"')[1]
+const formatSeconds = (seconds: number): string => {
+  const time = new Date(seconds * 1000).toISOString().slice(11, 19)
+  return time
+}
 
-  const properties = getProperties(houseData, habitacliaData)
-  const features = getFeatures(houseData)
-  const images = getImages(houseData)
+const getCarDurations = async (location: IHouseLocation): Promise<{ ana: string, didac: string }> => {
+  try {
+    const anaDuration = (await axios.get(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${process.env.ORS_API_KEY}&start=${AnaHouse.lon},${AnaHouse.lat}&end=${location.lon},${location.lat}`))
+      .data.features[0].properties.segments[0].duration
+    const didacDuration = (await axios.get(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${process.env.ORS_API_KEY}&start=${DidacHouse.lon},${DidacHouse.lat}&end=${location.lon},${location.lat}`))
+      .data.features[0].properties.segments[0].duration
+
+    return {
+      ana: formatSeconds(anaDuration),
+      didac: formatSeconds(didacDuration)
+    }
+  } catch (e) {
+    return {
+      ana: 'None',
+      didac: 'None'
+    }
+  }
+}
+
+const getImages = (data: string): string[] => {
+  const mediaData = infoBetween(data, 'var WideMediaDTO = ', '};')
+  const imagesObject = (JSON.parse(replaceAll(infoBetween(mediaData, 'image: JSON.parse("', '"),'), '\\"', '"'))).sort((a, b) => a.Orden - b.Orden) as any[]
+
+  return imagesObject.map(img => (img.URLXL))
+}
+
+export const calculateGlobalRate = (anaRate?: number, didacRate?: number): number | undefined => {
+  if (anaRate && didacRate) return (anaRate + didacRate) / 2
+  return undefined
+}
+
+export const getCompletHouse = async (link: string, price: number, anaRate?: number, didacRate?: number, anaNotes?: string, didacNotes?: string): Promise<IDBHouse> => {
+  const habitaclia = (await axios.get(link)).data
+
+  const features = getFeatures(habitaclia)
+  const location = getLocation(habitaclia)
+  const cars = await getCarDurations(location)
+  const images = getImages(habitaclia)
+  const { title, description, realPrice } = getProperties(habitaclia)
 
   return {
-    ...house,
-    properties: {
-      ...properties,
-      banner: images.gallery[0].main
-    },
-    features,
-    images
+    id: 0,
+    link: link,
+    price: price,
+    realPrice: realPrice,
+    title: title,
+    description: description,
+    images: replaceAll((JSON.stringify(images)), '"', "'"),
+    city: location.city,
+    anaRate: anaRate,
+    anaNotes: anaNotes,
+    anaCar: cars.ana,
+    didacRate: didacRate,
+    didacNotes: didacNotes,
+    didacCar: cars.didac,
+    lat: location.lat,
+    lon: location.lon,
+    area: features.area,
+    rooms: features.rooms,
+    baths: features.baths
   }
 }

@@ -13,6 +13,8 @@ on:
         required: true
       DB_PASSWORD:
         required: true
+      ORS_API_KEY:
+        required: true
   push:
     branches:
       - "main"
@@ -51,5 +53,6 @@ jobs:
           DB: ${{ secrets.DB }}
           DB_IP: ${{ secrets.DB_IP }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
       
 

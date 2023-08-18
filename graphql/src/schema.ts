@@ -7,7 +7,15 @@ type Query {
 }
 
 type Mutation {
-    addHouse(link: String!, price: Int!, anaRate: Int, didacRate: Int, anaNotes: String, didacNotes: String): Boolean
+    addHouse(
+        link: String!,
+        price: Int!,
+        anaRate: Int,
+        didacRate: Int,
+        anaNotes: String,
+        didacNotes: String,
+
+    ): Boolean
     editHouse(id: Int!, link: String!, price: Int!): Boolean
     anaRate(id: Int!, rate: Int!): Boolean
     didacRate(id: Int!, rate: Int!): Boolean
@@ -19,10 +27,13 @@ type House {
     id: Int!
     link: String!
     price: Int!
-    globalRate: Float
-    properties: HouseProperties!
+    realPrice: Int!
+    title: String!
+    description: String!
+    images: [String]!
     features: HouseFeatures!
-    images: HouseImages!
+    location: HouseLocation!
+    globalRate: Float
     ana: PersonInfo!
     didac: PersonInfo!
 }
@@ -30,29 +41,17 @@ type House {
 type PersonInfo {
     rate: Int
     notes: String
-}
-
-type HouseProperties {
-    title: String!
-    price: Int!
-    banner: String!
-    description: String!
+    carDuration: String!
 }
 
 type HouseFeatures {
     area: Int!
-    bedrooms: Int!
+    rooms: Int!
     baths: Int
 }
 
-type HouseImages {
-    gallery: [Image]!
-    map: String!
-}
-
-type Image {
-    main: String!
-    small: String!
-    big: String!
+type HouseLocation {
+    lat: String!
+    lon: String!
 }
 `
