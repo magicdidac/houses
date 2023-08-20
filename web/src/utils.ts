@@ -7,7 +7,10 @@ export const formatNumber = (value: number): string => {
 }
 
 export const formatCurrency = (value: number): string => {
-    const valueWithDots = (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    const decimals = parseFloat((value % 1).toFixed(2))
+    const valueWithDots = (value.toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+
+    if (decimals > 0) return valueWithDots + ',' + formatNumber(parseInt((decimals * 100).toFixed(0))) + ' €'
     return valueWithDots + ' €'
 }
 

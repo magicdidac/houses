@@ -8,6 +8,7 @@ import { WrongMessage } from "../Components/WrongMessage"
 import { Stack } from "@mui/material"
 import { HousePeople } from "../Components/HousePeople"
 import { HouseMap } from "../Components/HouseMap"
+import { HouseMortage } from "../Components/HouseMortage"
 
 export const HousePage = () => {
   const { id } = useParams()
@@ -41,6 +42,7 @@ export const HousePage = () => {
         >
           <HouseDescription house={house.data} />
           <HousePeople house={house.data} ana={house.ana} didac={house.didac} />
+          <HouseMortage house={house.data} />
           <HouseMap house={house.data} />
         </Stack>
       </Stack>
