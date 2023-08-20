@@ -17,6 +17,7 @@ export const ImagesPage = () => {
   const isMobile = useMobile()
   const navigate = useNavigate()
   const [imageIndex, setImageIndex] = useState(0)
+  const [touchStartX, setTouchStartX] = useState(0)
 
   const changeImage = useCallback((direction: Direction) => {
     if (!house.data) return
@@ -46,11 +47,29 @@ export const ImagesPage = () => {
     }
   }, [changeImage, navigate])
 
+  const handleTouchStart = (clientX: number) => {
+    setTouchStartX(clientX)
+  }
+
+  const handleTouchEnd = (touchCurrentX: number) => {
+    const deltaX = touchCurrentX - touchStartX
+
+    if (deltaX > 50) {
+      changeImage(Direction.Backward)
+    } else if (deltaX < -50) {
+      changeImage(Direction.Forward)
+    }
+  }
+
   if (house.loading) return <CenterLoading label="Loading House..." />
   if (!house.data || house.error) return <WrongMessage message={`La casa con id ${id} no existe...`} />
 
   return (
-    <div style={{ margin: '-2rem 0' }}>
+    <div
+      style={{ margin: '-2rem 0' }}
+      onTouchStart={(event) => handleTouchStart(event.touches[0].clientX)}
+      onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
+    >
       {isMobile &&
         <Stack
           justifyContent='center'
