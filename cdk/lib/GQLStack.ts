@@ -27,7 +27,7 @@ export class GQLStack extends Stack {
             defaultCorsPreflightOptions: {
                 allowHeaders: Cors.DEFAULT_HEADERS,
                 allowOrigins: Cors.ALL_ORIGINS,
-                allowMethods: Cors.ALL_METHODS
+                allowMethods: [HttpMethod.POST]
             },
             restApiName: 'house-API'
         })
