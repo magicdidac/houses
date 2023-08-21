@@ -1,5 +1,5 @@
 import { Resolvers } from "./__generated__/resolvers-types";
-import { addHouse, anaNotes, anaRate, didacNotes, didacRate, disableHouse, editHouse, getHouseById, getHouses, isDuplicated } from "./functions/Houses";
+import { addHouse, disableHouse, editHouse, getHouseById, getHouses, isDuplicated } from "./functions/house";
 
 export const resolvers: Resolvers = {
     Query: {
@@ -9,11 +9,7 @@ export const resolvers: Resolvers = {
     },
     Mutation: {
         addHouse: (_, args) => addHouse(args),
-        disableHouse: (_, args) => disableHouse(args),
         editHouse: (_, args) => editHouse(args),
-        anaRate: (_, args) => anaRate(args),
-        didacRate: (_, args) => didacRate(args),
-        anaNotes: (_, args) => anaNotes(args),
-        didacNotes: (_, args) => didacNotes(args),
+        disableHouse: (_, args) => disableHouse(args),
     }
 }

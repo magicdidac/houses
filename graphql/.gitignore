@@ -1,3 +1,4 @@
 .env
 *.js
 *.d.ts
+__generated__

@@ -10,7 +10,7 @@ const setConnection = async (): Promise<Connection> => {
   })
 }
 
-export const callDB = async (query: string): Promise<any> => {
+export default async (query: string): Promise<any> => {
   const connection = await setConnection()
   const [data] = await connection.query(query)
 
