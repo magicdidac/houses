@@ -1,12 +1,15 @@
-import { typeDefs } from ".";
 import { resolvers } from "./resolvers";
-import { ApolloServer } from "@apollo/server";
+import { ApolloServer, BaseContext } from "@apollo/server";
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { typeDefs } from "./typeDefs";
 
-const server = new ApolloServer({
+const server = new ApolloServer<BaseContext>({
     typeDefs,
     resolvers
 })
 
-server.start().then(() => {
-    console.log(`🚀 Server ready`)
+startStandaloneServer(server, {
+    listen: { port: 4000 }
+}).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`)
 })

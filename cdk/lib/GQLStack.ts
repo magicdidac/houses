@@ -27,14 +27,11 @@ export class GQLStack extends Stack {
             defaultCorsPreflightOptions: {
                 allowHeaders: Cors.DEFAULT_HEADERS,
                 allowOrigins: Cors.ALL_ORIGINS,
-                allowMethods: [HttpMethod.GET, HttpMethod.POST]
+                allowMethods: Cors.ALL_METHODS
             },
             restApiName: 'house-API'
         })
 
-        const lambdaIntegration = new LambdaIntegration(lambda)
-
-        api.root.addMethod(HttpMethod.POST, lambdaIntegration)
-        api.root.addMethod(HttpMethod.GET, lambdaIntegration)
+        api.root.addMethod(HttpMethod.POST, new LambdaIntegration(lambda))
     }
 }
