@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { ADD_HOUSE, ANA_NOTES, ANA_RATE, DIDAC_NOTES, DIDAC_RATE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID, IS_DUPLICATED } from "../Api/Houses"
+import { ADD_HOUSE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID, IS_DUPLICATED } from "../Api/Houses"
 import { IHouse } from "../Api/interfaces"
 
 enum Person {
@@ -46,32 +46,44 @@ export const useHouseById = (id: number) => {
   const { data, error, loading } = useQuery(GET_HOUSE_BY_ID, { variables: { id } })
   const [disableHouse] = useMutation(DISABLE_HOUSE, { refetchQueries: [{ query: GET_HOUSES }] })
   const [editHouse] = useMutation(EDIT_HOUSE, { refetchQueries })
-  const [anaRate] = useMutation(ANA_RATE, { refetchQueries })
-  const [anaNotes] = useMutation(ANA_NOTES, { refetchQueries })
-  const [didacRate] = useMutation(DIDAC_RATE, { refetchQueries })
-  const [didacNotes] = useMutation(DIDAC_NOTES, { refetchQueries })
 
   const disable = async () => {
     await disableHouse({ variables: { id } })
   }
 
-  const edit = async (link: string, price: number) => {
-    await editHouse({ variables: { link, price } })
-  }
-
   const rate = async (person: Person, rate: number) => {
+    if (!data || !data.getHouseById) return
+
+    const importantData = {
+      id,
+      anaRate: data.getHouseById.ana.rate,
+      didacRate: data.getHouseById.didac.rate,
+      anaNotes: data.getHouseById.ana.notes,
+      didacNotes: data.getHouseById.didac.notes,
+    }
+
     if (person === Person.Ana) {
-      await anaRate({ variables: { id, rate } })
+      await editHouse({ variables: { ...importantData, anaRate: rate } })
     } else {
-      await didacRate({ variables: { id, rate } })
+      await editHouse({ variables: { ...importantData, didacRate: rate } })
     }
   }
 
   const notes = async (person: Person, notes: string) => {
+    if (!data || !data.getHouseById) return
+
+    const importantData = {
+      id,
+      anaRate: data.getHouseById.ana.rate,
+      didacRate: data.getHouseById.didac.rate,
+      anaNotes: data.getHouseById.ana.notes,
+      didacNotes: data.getHouseById.didac.notes,
+    }
+
     if (person === Person.Ana) {
-      await anaNotes({ variables: { id, notes } })
+      await editHouse({ variables: { ...importantData, anaNotes: notes } })
     } else {
-      await didacNotes({ variables: { id, notes } })
+      await editHouse({ variables: { ...importantData, didacNotes: notes } })
     }
   }
 
@@ -80,7 +92,6 @@ export const useHouseById = (id: number) => {
     error,
     loading,
     disable,
-    edit,
     ana: {
       rate: async (value: number) => await rate(Person.Ana, value),
       notes: async (value: string) => await notes(Person.Ana, value)

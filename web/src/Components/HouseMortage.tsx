@@ -111,7 +111,12 @@ export const HouseMortage = ({ house }: IHouseMortageProps) => {
         <Typography>Hipoteca: {formatCurrency(calculateCapital())}</Typography>
         <Typography>Entrada: {formatCurrency(entrance.houseCost)} + {formatCurrency(entrance.adminCost)} = {formatCurrency(entrance.entrance)}</Typography>
       </Stack>
-      <Stack direction='column' marginTop='1rem'>
+      <Stack direction='column' marginTop='1rem' sx={{
+        width: {
+          sm: '100%',
+          md: '40vw'
+        }
+      }}>
         <Stack direction='row' paddingX='1rem' alignItems='center' justifyContent='space-between' border='1px solid #000'>
           <Typography variant="h6">Años</Typography>
           <Typography variant="h6">Cuota</Typography>

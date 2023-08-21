@@ -8,5 +8,5 @@ export default (tableName: string, where: string, fields: IFields): string => {
     values.push(`${key}=${newFields[key]}`)
   }
 
-  return `UPDATE FROM ${tableName} SET ${values.join(', ')} WHERE ${where};`
+  return `UPDATE ${tableName} SET ${values.join(', ')} WHERE ${where};`
 }

@@ -20,8 +20,6 @@ type Mutation {
   disableHouse(id: Int!): Boolean
   editHouse(
     id: Int!,
-    link: String!,
-    price: Int!,
     anaRate: Int,
     didacRate: Int,
     anaNotes: String,

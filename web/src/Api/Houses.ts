@@ -40,15 +40,15 @@ query {
 }
 `
 
-export const IS_DUPLICATED = gql`
-query ($link: String!) {
-  isDuplicated(link: $link)
-}
-`
-
 export const GET_HOUSE_BY_ID = gql`
 query ($id: Int!) {
   getHouseById(id:$id) ${allFields}
+}
+`
+
+export const IS_DUPLICATED = gql`
+query ($link: String!) {
+  isDuplicated(link: $link)
 }
 `
 
@@ -59,32 +59,8 @@ mutation ($link: String!, $price: Int!, $anaRate: Int, $didacRate: Int, $anaNote
 `
 
 export const EDIT_HOUSE = gql`
-mutation ($id: Int!, $link: String!, $price: Int!){
-  editHouse(id: $id, link: $link, price: $price)
-}
-`
-
-export const ANA_RATE = gql`
-mutation ($id: Int!, $rate: Int!) {
-  anaRate(id: $id, rate: $rate)
-}
-`
-
-export const DIDAC_RATE = gql`
-mutation ($id: Int!, $rate: Int!) {
-  didacRate(id: $id, rate: $rate)
-}
-`
-
-export const ANA_NOTES = gql`
-mutation ($id: Int!, $notes: String!) {
-  anaNotes(id: $id, notes: $notes)
-}
-`
-
-export const DIDAC_NOTES = gql`
-mutation ($id: Int!, $notes: String!) {
-  didacNotes(id: $id, notes: $notes)
+mutation ($id: Int!, $anaRate: Int, $anaNotes: String, $didacRate: Int, $didacNotes: String){
+  editHouse(id: $id, anaRate: $anaRate, anaNotes: $anaNotes, didacRate: $didacRate, didacNotes: $didacNotes)
 }
 `
 
