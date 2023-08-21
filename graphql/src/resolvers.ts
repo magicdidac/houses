@@ -1,18 +1,19 @@
+import { Resolvers } from "./__generated__/resolvers-types";
 import { addHouse, anaNotes, anaRate, didacNotes, didacRate, disableHouse, editHouse, getHouseById, getHouses, isDuplicated } from "./functions/Houses";
 
-export const resolvers = {
+export const resolvers: Resolvers = {
     Query: {
         getHouses: () => getHouses(),
-        getHouseById: (_, args) => getHouseById(args.id),
-        isDuplicated: (_, args) => isDuplicated(args.link),
+        getHouseById: (_, args) => getHouseById(args),
+        isDuplicated: (_, args) => isDuplicated(args),
     },
     Mutation: {
-        addHouse: (_, args) => addHouse(args.link, args.price, args.anaRate, args.didacRate, args.anaNotes, args.didacNotes),
-        disableHouse: (_, args) => disableHouse(args.id),
-        editHouse: (_, args) => editHouse(args.id, args.link, args.price),
-        anaRate: (_, args) => anaRate(args.id, args.rate),
-        didacRate: (_, args) => didacRate(args.id, args.rate),
-        anaNotes: (_, args) => anaNotes(args.id, args.notes),
-        didacNotes: (_, args) => didacNotes(args.id, args.notes),
+        addHouse: (_, args) => addHouse(args),
+        disableHouse: (_, args) => disableHouse(args),
+        editHouse: (_, args) => editHouse(args),
+        anaRate: (_, args) => anaRate(args),
+        didacRate: (_, args) => didacRate(args),
+        anaNotes: (_, args) => anaNotes(args),
+        didacNotes: (_, args) => didacNotes(args),
     }
 }

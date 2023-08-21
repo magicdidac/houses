@@ -1,11 +1,12 @@
+import { House, MutationAddHouseArgs, MutationAnaNotesArgs, MutationAnaRateArgs, MutationDidacNotesArgs, MutationDidacRateArgs, MutationDisableHouseArgs, MutationEditHouseArgs, QueryGetHouseByIdArgs, QueryIsDuplicatedArgs } from "../__generated__/resolvers-types"
 import { callDB } from "../database"
-import { IDBHouse, IHouse } from "../interfaces"
-import { insert } from "../sqlUtils"
-import { calculateGlobalRate, getCompletHouse, replaceAll, stringNullable } from "../utils"
+import { IDBHouse } from "../interfaces"
+import { insert, update } from "../sqlUtils"
+import { calculateGlobalRate, getCompletHouse, replaceAll } from "../utils"
 
 const commonSelect = 'SELECT * FROM Houses'
 
-const formatHouses = (data: IDBHouse[]): IHouse[] => {
+const formatHouses = (data: IDBHouse[]): House[] => {
   return data.map((house) => ({
     id: house.id,
     link: house.link,
@@ -39,48 +40,57 @@ const formatHouses = (data: IDBHouse[]): IHouse[] => {
   }))
 }
 
-export const getHouses = async (): Promise<IHouse[]> => {
+/* ____QUERIES____ */
+
+export const getHouses = async (): Promise<House[]> => {
   const data = await callDB(`${commonSelect} WHERE disabled = FALSE ORDER BY id DESC`)
 
   return formatHouses(data)
 }
 
-export const getHouseById = async (id: number): Promise<IHouse> => {
+export const getHouseById = async ({ id }: QueryGetHouseByIdArgs): Promise<House> => {
   const data = await callDB(`${commonSelect} WHERE id = ${id}`)
   return formatHouses(data)[0]
 }
 
-export const addHouse = async (
-  link: string,
-  price: number,
-  anaRate?: number,
-  didacRate?: number,
-  anaNotes?: string,
-  didacNotes?: string,
-): Promise<boolean> => {
+export const isDuplicated = async ({ link }: QueryIsDuplicatedArgs): Promise<number | undefined> => {
+  const houses = await callDB(`SELECT id FROM Houses WHERE disabled = FALSE AND link = "${link}"`)
+
+  return (houses.length === 0) ? undefined : houses[0].id
+}
+
+
+
+
+
+
+
+/* ____MUTATIONS____ */
+
+export const addHouse = async ({ link, price, anaRate, anaNotes, didacRate, didacNotes }: MutationAddHouseArgs): Promise<boolean> => {
   try {
     const house = await getCompletHouse(link, price, anaRate, didacRate, anaNotes, didacNotes)
 
-    await callDB(insert({
-      link: `"${house.link}"`,
+    await callDB(insert('Houses', {
+      link: house.link,
       price: house.price,
       realPrice: house.realPrice,
-      title: `"${house.title}"`,
-      description: `"${house.description}"`,
-      images: `"${house.images}"`,
-      mapImage: `"${house.mapImage}"`,
-      city: `"${house.city}"`,
-      lat: `"${house.lat}"`,
-      lon: `"${house.lon}"`,
+      title: house.title,
+      description: house.description,
+      images: house.images,
+      mapImage: house.mapImage,
+      city: house.city,
+      lat: house.lat,
+      lon: house.lon,
       area: house.area,
       rooms: house.rooms,
-      baths: house.baths ?? 'NULL',
-      anaRate: house.anaRate ?? 'NULL',
-      anaNotes: stringNullable(house.anaNotes),
-      anaCar: `"${house.anaCar}"`,
-      didacRate: house.didacRate ?? 'NULL',
-      didacNotes: stringNullable(house.didacNotes),
-      didacCar: `"${house.didacCar}"`
+      baths: house.baths,
+      anaRate: house.anaRate,
+      anaNotes: house.anaNotes,
+      anaCar: house.anaCar,
+      didacRate: house.didacRate,
+      didacNotes: house.didacNotes,
+      didacCar: house.didacCar
     }))
 
     return true
@@ -90,68 +100,38 @@ export const addHouse = async (
   }
 }
 
-export const disableHouse = async (id: number): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET disabled=TRUE
-    WHERE id=${id}
-  `)
+export const disableHouse = async ({ id }: MutationDisableHouseArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { disabled: true }))
 
   return true
 }
 
-export const editHouse = async (id: number, link: string, price: number): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET link="${link}", price=${price}
-    WHERE id=${id}
-  `)
+export const editHouse = async ({ id, link, price }: MutationEditHouseArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { link, price }))
 
   return true
 }
 
-export const anaRate = async (id: number, rate: number): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET anaRate=${rate}
-    WHERE id=${id}
-  `)
+export const anaRate = async ({ id, rate }: MutationAnaRateArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { anaRate: rate }))
 
   return true
 }
 
-export const didacRate = async (id: number, rate: number): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET didacRate=${rate}
-    WHERE id=${id}
-  `)
+export const didacRate = async ({ id, rate }: MutationDidacRateArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { didacRate: rate }))
 
   return true
 }
 
-export const anaNotes = async (id: number, notes: string): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET anaNotes="${notes}"
-    WHERE id=${id}
-  `)
+export const anaNotes = async ({ id, notes }: MutationAnaNotesArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { anaNotes: notes }))
 
   return true
 }
 
-export const didacNotes = async (id: number, notes: string): Promise<boolean> => {
-  await callDB(`
-    UPDATE Houses
-    SET didacNotes="${notes}"
-    WHERE id=${id}
-  `)
+export const didacNotes = async ({ id, notes }: MutationDidacNotesArgs): Promise<boolean> => {
+  await callDB(update('Houses', `id=${id}`, { didacNotes: notes }))
 
   return true
-}
-
-export const isDuplicated = async (link: string): Promise<number | undefined> => {
-  const houses = await callDB(`SELECT id FROM Houses WHERE disabled = FALSE AND link = "${link}"`)
-
-  return (houses.length === 0) ? undefined : houses[0].id
 }
