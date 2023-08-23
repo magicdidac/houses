@@ -8,6 +8,6 @@
         "deploy:api": "cd cdk && yarn deploy:api",
         "deploy:priceUpdater": "cd cdk && yarn deploy:priceUpdater",
         "start": "cd web && yarn start",
-        "start:api": "cd graphql && yarn local"
+        "start:api": "cd lambdas/graphql && yarn local"
     }
 }

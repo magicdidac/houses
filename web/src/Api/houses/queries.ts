@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { allFields } from "."
+import { allFields } from "./allFields"
 
 export const GET_HOUSES = gql`
 query GetHouses {
