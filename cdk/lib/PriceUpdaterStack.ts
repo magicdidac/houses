@@ -15,7 +15,7 @@ export class PriceUpdaterStack extends Stack {
       timeout: Duration.seconds(30),
 
       handler: 'handler',
-      entry: path.join(__dirname, '/../../priceUpdater/src/index.ts'),
+      entry: path.join(__dirname, '/../../lambdas/priceUpdater/src/index.ts'),
       environment: {
         DB: process.env.DB ?? 'DB is not setted',
         DB_IP: process.env.DB_IP ?? 'DB_IP is not setted',

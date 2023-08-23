@@ -18,7 +18,7 @@ on:
       - "main"
     paths:
       - "cdk/**"
-      - "priceUpdater/**"
+      - "lambdas/priceUpdater/**"
       - ".github/workflows/deploy-priceUpdater.yml"
   workflow_dispatch:
 
@@ -42,8 +42,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: eu-west-3
           
-      - name: Install priceUpdater modules
-        run: yarn install:priceUpdater
+      - name: Install Lambdas modules
+        run: yarn install:lambdas
 
       - name: Deploy priceUpdater
         run: yarn deploy:priceUpdater

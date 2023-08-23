@@ -20,7 +20,7 @@ on:
       - "main"
     paths:
       - "cdk/**"
-      - "graphql/**"
+      - "lambdas/graphql/**"
       - ".github/workflows/deploy-api.yml"
   workflow_dispatch:
 
@@ -44,8 +44,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: eu-west-3
           
-      - name: Install API modules
-        run: yarn install:api
+      - name: Install Lambdas modules
+        run: yarn install:lambdas
 
       - name: Deploy API
         run: yarn deploy:api

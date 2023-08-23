@@ -3,8 +3,7 @@
     "private": true,
     "scripts": {
         "install:web": "cd web && yarn",
-        "install:api": "cd cdk && yarn && cd ../graphql && yarn",
-        "install:priceUpdater": "cd cdk && yarn && cd ../priceUpdater && yarn",
+        "install:lambdas": "cd cdk && yarn && cd ../lambdas && yarn",
         "build:web": "cd web && yarn build",
         "deploy:api": "cd cdk && yarn deploy:api",
         "deploy:priceUpdater": "cd cdk && yarn deploy:priceUpdater",
