@@ -2,11 +2,16 @@ import axios from "axios"
 import { IDBHouse, callDB } from "./database"
 import { infoBetween } from "./utils"
 
+const updateRealPriceString = (id: number, realPrice: number): string => {
+  return `UPDATE Houses SET realPrice = ${realPrice} WHERE id = ${id};`
+}
 
 export const handler = async () => {
   const houses = await callDB('SELECT * FROM Houses WHERE disabled = FALSE') as IDBHouse[]
 
   console.log('Houses getted', houses.length)
+  let housesToDisable: string[] = []
+  let housesToUpdateRealPrice: string[] = []
 
   for (const house of houses) {
     const habitaclia = (await axios.get(house.link)).data as string
@@ -14,13 +19,21 @@ export const handler = async () => {
     try {
       const realPrice = parseInt(infoBetween(habitaclia, "precioProducto: '", "',"))
       console.log('realPrice:', realPrice, '€ for house', house.id)
+      housesToUpdateRealPrice.push(updateRealPriceString(house.id, realPrice))
 
-      await callDB(`UPDATE Houses SET realPrice = ${realPrice} WHERE id = ${house.id}`)
       console.log('CORRECT', house.id)
     } catch (e) {
       console.log('DISABLE house', house.id)
-      await callDB(`UPDATE Houses SET disabled = TRUE WHERE id = ${house.id}`)
+      housesToDisable.push(`id = ${house.id}`)
+      // await callDB(`UPDATE Houses SET disabled = TRUE WHERE id = ${house.id}`)
     }
   }
 
+  if (housesToDisable.length > 0) {
+    await callDB(`UPDATE Houses SET disabled = TRUE WHERE ${housesToDisable.join(', ')};`)
+  }
+
+  if (housesToUpdateRealPrice.length > 0) {
+    await callDB(housesToUpdateRealPrice.join('\n'))
+  }
 }
