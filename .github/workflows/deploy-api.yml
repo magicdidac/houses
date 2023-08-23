@@ -21,6 +21,7 @@ on:
     paths:
       - "cdk/**"
       - "graphql/**"
+      - "priceUpdater/**"
       - ".github/workflows/deploy-api.yml"
   workflow_dispatch:
 
