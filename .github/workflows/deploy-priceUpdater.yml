@@ -1,4 +1,4 @@
-name: API Deploy
+name: Price Updater Deploy
 
 on:
   workflow_call:
@@ -13,15 +13,13 @@ on:
         required: true
       DB_PASSWORD:
         required: true
-      ORS_API_KEY:
-        required: true
   push:
     branches:
       - "main"
     paths:
       - "cdk/**"
-      - "graphql/**"
-      - ".github/workflows/deploy-api.yml"
+      - "priceUpdater/**"
+      - ".github/workflows/deploy-priceUpdater.yml"
   workflow_dispatch:
 
 jobs:
@@ -44,15 +42,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: eu-west-3
           
-      - name: Install API modules
-        run: yarn install:api
+      - name: Install priceUpdater modules
+        run: yarn install:priceUpdater
 
-      - name: Deploy API
-        run: yarn deploy:api
+      - name: Deploy priceUpdater
+        run: yarn deploy:priceUpdater
         env:
           DB: ${{ secrets.DB }}
           DB_IP: ${{ secrets.DB_IP }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
       
 

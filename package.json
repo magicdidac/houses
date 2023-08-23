@@ -4,8 +4,10 @@
     "scripts": {
         "install:web": "cd web && yarn",
         "install:api": "cd cdk && yarn && cd ../graphql && yarn && cd ../priceUpdater && yarn",
+        "install:priceUpdater": "cd priceUpdater && yarn",
         "build:web": "cd web && yarn build",
-        "deploy:api": "cd cdk && yarn deploy",
+        "deploy:api": "cd cdk && yarn deploy:api",
+        "deploy:priceUpdater": "cd cdk && yarn deploy:priceUpdater",
         "start": "cd web && yarn start",
         "start:api": "cd graphql && yarn local"
     }
