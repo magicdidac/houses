@@ -3,7 +3,7 @@ import { IDBHouse, callDB } from "./database"
 import { infoBetween } from "./utils"
 
 const updateRealPriceString = (id: number, realPrice: number): string => {
-  return `UPDATE Houses SET realPrice = ${realPrice} WHERE id = ${id};`
+  return `(${id}, ${realPrice})`
 }
 
 export const handler = async () => {
@@ -34,6 +34,10 @@ export const handler = async () => {
   }
 
   if (housesToUpdateRealPrice.length > 0) {
-    await callDB(housesToUpdateRealPrice.join('\n'))
+    await callDB(
+      `INSERT INTO Houses (id, realPrice)
+      VALUES ${housesToUpdateRealPrice.join(', ')}
+      ON DUPLICATE KEY UPDATE realPrice=VALUES(realPrice);`
+    )
   }
 }
