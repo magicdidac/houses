@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { ADD_HOUSE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID, IS_DUPLICATED } from "../Api/Houses"
-import { IHouse } from "../Api/interfaces"
+import { ADD_HOUSE, DISABLE_HOUSE, EDIT_HOUSE, GET_HOUSES, GET_HOUSE_BY_ID, IS_DUPLICATED } from "../Api/houses"
+import { IHouse } from "../Api/houses/interfaces"
 
 enum Person {
   Ana,

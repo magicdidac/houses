@@ -1,4 +1,4 @@
-import { IHouse, IHouseLocation } from "./Api/interfaces"
+import { IHouse, IHouseLocation } from "./Api/houses/interfaces"
 
 export const formatNumber = (value: number): string => {
     if (value === 0) return '00'

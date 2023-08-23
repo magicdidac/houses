@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import { HouseRating } from "./HouseRating"
 import { PriceDifference } from "./PriceDifference"
 import { getRatingMessage } from "../utils"
-import { IHouse } from "../Api/interfaces"
+import { IHouse } from "../Api/houses/interfaces"
 import { Link } from 'react-router-dom'
 
 interface IHouseItemProps {

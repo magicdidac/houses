@@ -5,7 +5,7 @@ import { HouseItem } from "../Components/HouseItem"
 import { AddHouseButton } from "../Components/AddHouseButton"
 import { MouseEvent, useState } from "react"
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material"
-import { IHouse } from "../Api/interfaces"
+import { IHouse } from "../Api/houses/interfaces"
 
 export const HousesListPage = () => {
   const houses = useHouses()

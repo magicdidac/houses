@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material"
-import { IHouseLocation } from "../Api/interfaces"
+import { IHouseLocation } from "../Api/houses/interfaces"
 import { IPersonLocation } from "../constants"
 import { LinkButton } from "./LinkButton"
 import { createMapsRouteLink } from "../utils"

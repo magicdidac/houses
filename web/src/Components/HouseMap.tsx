@@ -1,5 +1,5 @@
 import { Container, Link, Stack, Typography } from "@mui/material"
-import { IHouse } from "../Api/interfaces"
+import { IHouse } from "../Api/houses/interfaces"
 import { createMapsPlaceLink } from "../utils"
 import { PersonCar } from "./PersonCar"
 import { AnaHouse, DidacHouse } from "../constants"

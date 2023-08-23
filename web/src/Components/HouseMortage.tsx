@@ -1,5 +1,5 @@
 import { CircularProgress, Container, Stack, Typography } from "@mui/material"
-import { IHouse } from "../Api/interfaces"
+import { IHouse } from "../Api/houses/interfaces"
 import { formatCurrency } from "../utils"
 import { useEffect, useState } from "react"
 

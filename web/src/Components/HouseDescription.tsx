@@ -1,7 +1,7 @@
 import { Download } from "@mui/icons-material"
 import { Button, Container, Stack, Typography } from "@mui/material"
 import { useState } from "react"
-import { IHouse } from "../Api/interfaces"
+import { IHouse } from "../Api/houses/interfaces"
 
 interface IHouseDescriptionProps {
   house: IHouse
