@@ -8,8 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "cdk": "cdk",
-    "deploy:api": "npx cdk deploy --require-approval never house-stack",
-    "deploy:priceUpdater": "npx cdk deploy --require-approval never house-price-updater"
+    "deploy:api": "npx cdk deploy house-stack --require-approval never",
+    "deploy:priceUpdater": "npx cdk deploy house-price-updater --require-approval never"
   },
   "devDependencies": {
     "@types/node": "20.5.1",

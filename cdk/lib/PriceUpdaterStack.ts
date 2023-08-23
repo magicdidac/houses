@@ -11,7 +11,7 @@ export class PriceUpdaterStack extends Stack {
     const priceUpdaterLambda = new NodejsFunction(this, 'priceUpdaer', {
       architecture: Architecture.ARM_64,
       memorySize: 128,
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
       timeout: Duration.seconds(30),
 
       handler: 'handler',

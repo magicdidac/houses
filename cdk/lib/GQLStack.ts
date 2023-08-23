@@ -10,7 +10,7 @@ export class GQLStack extends Stack {
         const lambda = new NodejsFunction(this, 'apollo-lambda', {
             architecture: Architecture.ARM_64,
             memorySize: 128,
-            runtime: Runtime.NODEJS_16_X,
+            runtime: Runtime.NODEJS_18_X,
             timeout: Duration.seconds(20),
 
             handler: 'handler',
