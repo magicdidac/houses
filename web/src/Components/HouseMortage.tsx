@@ -22,7 +22,10 @@ interface IEntrance {
 
 export const HouseMortage = ({ house }: IHouseMortageProps) => {
   //             Didac + Ana
-  const salary = 2400 + 1200
+  const didac = 2600
+  const ana = 1400
+  const salary = didac + ana
+  const tin = 3.7
 
   const [mortage, setMortage] = useState<IMortage>()
   const [entrance, setEntrance] = useState<IEntrance>()
@@ -37,12 +40,12 @@ export const HouseMortage = ({ house }: IHouseMortageProps) => {
 
 
   const calculateMortage = (capital: number) => {
-    const thirty = calculateMortageMonthly(capital, 30, 3.7)
-    const twentyFive = calculateMortageMonthly(capital, 25, 3.7)
-    const twenty = calculateMortageMonthly(capital, 20, 3.7)
-    const fifteen = calculateMortageMonthly(capital, 15, 3.7)
-    const ten = calculateMortageMonthly(capital, 10, 3.7)
-    const five = calculateMortageMonthly(capital, 5, 3.7)
+    const thirty = calculateMortageMonthly(capital, 30, tin)
+    const twentyFive = calculateMortageMonthly(capital, 25, tin)
+    const twenty = calculateMortageMonthly(capital, 20, tin)
+    const fifteen = calculateMortageMonthly(capital, 15, tin)
+    const ten = calculateMortageMonthly(capital, 10, tin)
+    const five = calculateMortageMonthly(capital, 5, tin)
 
     setMortage({
       30: {
@@ -111,6 +114,20 @@ export const HouseMortage = ({ house }: IHouseMortageProps) => {
         <Typography>Hipoteca: {formatCurrency(calculateCapital())}</Typography>
         <Typography>Entrada: {formatCurrency(entrance.houseCost)} + {formatCurrency(entrance.adminCost)} = {formatCurrency(entrance.entrance)}</Typography>
       </Stack>
+      <Stack sx={{
+        flexDirection: {
+          sm: 'column',
+          md: 'row'
+        },
+        gap: {
+          sm: '0',
+          md: '.5rem'
+        }
+      }}>
+        <Typography>Salarios:</Typography>
+        <Typography>Ana: {ana}€</Typography>
+        <Typography>Dídac: {didac}€</Typography>
+      </Stack>
       <Stack direction='column' marginTop='1rem' sx={{
         width: {
           sm: '100%',
@@ -129,7 +146,7 @@ export const HouseMortage = ({ house }: IHouseMortageProps) => {
             <Typography color={(mortage[key].risk > 40) ? 'red' : (mortage[key].risk > 30) ? 'orange' : 'green'}>{mortage[key].risk.toFixed(2)}%</Typography>
           </Stack>
         ))}
-        <Typography variant="mini">* Estos calculos se hacen para una hipoteca fija con un TIN del 3.7% (puede variar)</Typography>
+        <Typography variant="mini">* Estos calculos se hacen para una hipoteca fija con un TIN del {tin}% (puede variar)</Typography>
       </Stack>
     </Container>
   )
